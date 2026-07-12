@@ -3,14 +3,29 @@ import { useState, useEffect } from "react";
 import QuestionarioCard from "@/components/common/Cards/Cards_Dashboard/QuestionarioCard";
 import EstadoEmocionalCard from "@/components/common/Cards/Cards_Dashboard/EstadoEmocionalCard";
 import RecomendacoesCard from "@/components/common/Cards/Cards_Dashboard/RecomendacoesCard";
-import GraficoCard from "@/components/common/Cards/Cards_Dashboard/GraficoCard";
 import DiarioEmocionalCard from "@/components/common/Cards/Cards_Dashboard/DiarioEmocionalCard";
-import CorrelacaoCard from "@/components/common/Cards/Cards_Dashboard/CorrelacaoCard";
-import AthenaCard from "@/components/common/Cards/Cards_Dashboard/AthenaCard";
+import dynamic from "next/dynamic";
+
+const GraficoCard = dynamic(() => import("@/components/common/Cards/Cards_Dashboard/GraficoCard"), {
+  ssr: false,
+  loading: () => <div className="h-[360px] w-full animate-pulse bg-gray-100 dark:bg-slate-800 rounded-2xl" />
+});
+
+const CorrelacaoCard = dynamic(() => import("@/components/common/Cards/Cards_Dashboard/CorrelacaoCard"), {
+  ssr: false,
+  loading: () => <div className="h-[250px] w-full animate-pulse bg-gray-100 dark:bg-slate-800 rounded-2xl" />
+});
+
+const AthenaCard = dynamic(() => import("@/components/common/Cards/Cards_Dashboard/AthenaCard"), {
+  ssr: false,
+  loading: () => <div className="h-[250px] w-full animate-pulse bg-gray-100 dark:bg-slate-800 rounded-2xl" />
+});
 import api, { setAuthToken } from "@/lib/api/axios";
 import { verificarDiario, historico } from "@/lib/api/questionario";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Dashboard() {
+  const { user, loading: authLoading } = useAuth();
   const [questionarioStatus, setQuestionarioStatus] = useState({
     respondeuHoje: false,
     respondidos: 0,
@@ -20,33 +35,31 @@ export default function Dashboard() {
   const [historicoData, setHistoricoData] = useState(null);
 
   useEffect(() => {
+    if (authLoading || !user) return;
+
+    const id = user.id;
+    if (!id) return;
+    setUsuarioId(String(id));
+
     const init = async () => {
       if (typeof window !== "undefined") {
-        const token = localStorage.getItem("mt_token");
+        const token = sessionStorage.getItem("mt_token");
         if (token) setAuthToken(token);
       }
 
-      const userStr = localStorage.getItem("mt_user");
-      if (!userStr) return;
-      const user = JSON.parse(userStr);
-      const id = user.id || user.user_id || user.usuario_id;
-      if (id) setUsuarioId(id);
-      else return;
-
       try {
-        const respVerif = await verificarDiario(id);
+        const [respVerif, respHistorico, estatisticasResponse] = await Promise.all([
+          verificarDiario(String(id)),
+          historico(String(id)),
+          api.get(`/questionario/estatisticas/${id}`)
+        ]);
 
         const jaRespondido =
           respVerif?.ja_respondido === true ||
           respVerif?.data?.ja_respondido === true;
 
         // Buscar e guardar histórico no estado
-        const respHistorico = await historico(id);
         setHistoricoData(respHistorico);
-
-        const estatisticasResponse = await api.get(
-          `/questionario/estatisticas/${id}`,
-        );
 
         setQuestionarioStatus({
           respondeuHoje: jaRespondido,
@@ -64,7 +77,7 @@ export default function Dashboard() {
     };
 
     init();
-  }, []);
+  }, [user, authLoading]);
 
   return (
     <div className="ml-0 lg:ml-[150px] min-h-screen lg:h-screen overflow-y-auto lg:overflow-hidden">

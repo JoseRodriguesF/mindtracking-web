@@ -129,7 +129,7 @@ export default function   DiarioEmocionalCard() {
         setLoading(true);
         // configura token
         if (typeof window !== "undefined") {
-          const token = localStorage.getItem("mt_token");
+          const token = sessionStorage.getItem("mt_token");
           if (token) setAuthToken(token);
         }
         const resp = await getDiarios();

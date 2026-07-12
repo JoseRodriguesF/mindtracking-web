@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import dynamic from "next/dynamic";
-import { register as registerApi, login as loginApi } from "@/lib/api/auth";
+import { register as registerApi } from "@/lib/api/auth";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useAuth } from "@/contexts/AuthContext";
 import Image from "next/image";
@@ -147,9 +146,7 @@ export default function Register() {
   };
 
   const [apiError, setApiError] = useState<string | null>(null);
-  const [showVerify, setShowVerify] = useState(false);
-  const [registeredEmail, setRegisteredEmail] = useState("");
-  const VerifyEmailModal = dynamic(() => import("@/components/features/Auth/Register/ModalCode"), { ssr: false });
+  const router = useRouter();
 
   const handleRegisterClick = async () => {
     setApiError(null);
@@ -196,9 +193,18 @@ export default function Register() {
           genero: gender,
           telefone: phone,
         };
-        await registerApi(payload);
-        setRegisteredEmail(email);
-        setShowVerify(true);
+        const res = await registerApi(payload);
+        // Armazena token e dados do usuário retornados diretamente pelo registro
+        const token = res.token ?? null;
+        syncAuthState(token, res.user);
+        if (typeof window !== "undefined") {
+          if (token) {
+            sessionStorage.setItem("mt_token", token);
+          } else {
+            sessionStorage.removeItem("mt_token");
+          }
+        }
+        router.push("/questionnaire");
       } catch (error: unknown) {
         const errorMessage =
           error instanceof Error ? error.message : "Erro desconhecido";
@@ -252,41 +258,6 @@ export default function Register() {
 
     return () => clearInterval(typingText);
   }, [isRegisterView]);
-
-  const router = useRouter();
-  if (showVerify) {
-    return (
-      <VerifyEmailModal
-        email={registeredEmail}
-        isOpen={true}
-        onClose={() => setShowVerify(false)}
-        onSuccess={async () => {
-          // Após verificar o e-mail com sucesso, faz login para obter JWT e dados do usuário
-          try {
-            const res = await loginApi(email, password);
-            const token = res.token ?? null;
-            syncAuthState(token, res.user);
-            if (typeof window !== "undefined") {
-              if (token) {
-                sessionStorage.setItem("mt_token", token);
-              } else {
-                sessionStorage.removeItem("mt_token");
-              }
-
-              if (res.user) {
-                sessionStorage.setItem("mt_user", JSON.stringify(res.user));
-              } else {
-                sessionStorage.removeItem("mt_user");
-              }
-            }
-          } catch {
-            // Se falhar o login automático, segue para questionário mesmo assim
-          }
-          router.push("/questionnaire");
-        }}
-      />
-    );
-  }
   return (
     <div className="w-full max-w-6xl flex flex-col lg:flex-row items-center lg:items-start lg:justify-between px-5">
 

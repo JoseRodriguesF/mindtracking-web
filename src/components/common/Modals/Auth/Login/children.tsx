@@ -8,13 +8,10 @@ import IconInput from "@/components/common/Inputs/InputEmail";
 import PasswordInput from "@/components/common/Inputs/InputSenha";
 import Button from "@/components/common/Buttons";
 import { validateEmail } from "@/lib/validation";
-import dynamic from "next/dynamic";
 import ForgotPasswordModal from "@/components/features/Auth/RedefinicaoSenha/VerificacaoEmail";
 import ButtonEsqueceuSenha from "@/components/common/Buttons/ButtonEsqueceuSenha";
 
 interface User {
-  email_verificado?: boolean;
-  emailVerified?: boolean;
   questionario_inicial?: boolean;
   questionarioInicial?: boolean;
 }
@@ -29,16 +26,8 @@ export default function Login() {
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
-  const [showVerify, setShowVerify] = useState(false);
-  const [registeredEmail, setRegisteredEmail] = useState("");
-  const [pendingToken, setPendingToken] = useState<string | null>(null);
-  const [pendingUser, setPendingUser] = useState<User | null>(null);
   const [isForgotPasswordModalOpen, setIsForgotPasswordModalOpen] =
     useState(false);
-  const VerifyEmailModal = dynamic(
-    () => import("@/components/features/Auth/Register/ModalCode"),
-    { ssr: false },
-  );
   const router = useRouter();
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,10 +75,8 @@ export default function Login() {
     setLoading(true);
     try {
       const res = await loginApi(email, password);
-      // debug: log response to help diagnose verification flow
-      console.debug("login response:", res);
 
-      // Normalize user object: backend might return stringified JSON, array, camelCase or snake_case
+      // Normaliza o objeto user
       let userObj: User | null = null;
       try {
         if (!res.user) {
@@ -105,12 +92,6 @@ export default function Login() {
         userObj = res.user as User;
       }
 
-      // support both snake_case and camelCase property names, on both top-level and nested user
-      const emailVerified =
-        res?.email_verificado ??
-        res?.emailVerified ??
-        (userObj &&
-          (userObj.email_verificado ?? userObj.emailVerified ?? null));
       const questionarioInicial =
         res?.questionario_inicial ??
         res?.questionarioInicial ??
@@ -119,34 +100,13 @@ export default function Login() {
             userObj.questionarioInicial ??
             null));
 
-      // debug: values
-      console.debug("normalized user:", userObj, {
-        emailVerified,
-        questionarioInicial,
-      });
-      // If email not verified, open verification modal and wait for code verification
-      if (emailVerified === false) {
-        // hold token & user until verification completes
-        setPendingToken(res.token ?? null);
-        setPendingUser(userObj);
-        setRegisteredEmail(email);
-        setShowVerify(true);
-        return;
-      }
-
-      // Armazena token e user (normal flow)
+      // Armazena token e user
       syncAuthState(res.token ?? null, res.user);
       if (typeof window !== "undefined") {
         if (res.token) {
           sessionStorage.setItem("mt_token", res.token);
         } else {
           sessionStorage.removeItem("mt_token");
-        }
-
-        if (res.user) {
-          sessionStorage.setItem("mt_user", JSON.stringify(res.user));
-        } else {
-          sessionStorage.removeItem("mt_user");
         }
       }
       // Redireciona conforme questionario_inicial
@@ -170,31 +130,6 @@ export default function Login() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleVerifySuccess = () => {
-    // Called after verifyEmail inside modal succeeds
-    syncAuthState(pendingToken, pendingUser);
-    if (typeof window !== "undefined") {
-      if (pendingToken) {
-        sessionStorage.setItem("mt_token", pendingToken);
-      } else {
-        sessionStorage.removeItem("mt_token");
-      }
-
-      if (pendingUser) {
-        sessionStorage.setItem("mt_user", JSON.stringify(pendingUser));
-      } else {
-        sessionStorage.removeItem("mt_user");
-      }
-    }
-    // Após verificar o código com sucesso, enviar o usuário ao questionário inicial
-    // conforme requisito: "após o codigo estiver correto ele deve ser redirecionado para a tela de questionario."
-    router.push("/questionnaire");
-    // cleanup
-    setPendingToken(null);
-    setPendingUser(null);
-    setShowVerify(false);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -284,18 +219,10 @@ export default function Login() {
             loading={loading}
           />
         </div>
-        {showVerify && (
-          <VerifyEmailModal
-            email={registeredEmail}
-            isOpen={true}
-            onClose={() => setShowVerify(false)}
-            onSuccess={handleVerifySuccess}
-          />
-        )}
         <ForgotPasswordModal
           isOpen={isForgotPasswordModalOpen}
           onClose={() => setIsForgotPasswordModalOpen(false)}
-          onSuccess={handleVerifySuccess}
+          onSuccess={() => setIsForgotPasswordModalOpen(false)}
         />
       </div>
     </div>

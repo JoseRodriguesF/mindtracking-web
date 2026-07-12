@@ -5,6 +5,7 @@ import BaseCard from "./BaseCard";
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { corelacoes } from "@/lib/api/questionario";
 import { setAuthToken } from "@/lib/api/axios";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface Correlacao {
   total_ocorrencias: number;
@@ -185,35 +186,28 @@ export default function CorrelacoesCard() {
     });
   };
 
+  const { user } = useAuth();
+
   useEffect(() => {
     const carregarCorrelacoes = async () => {
+      if (!user) return;
+      const userId = user.id;
+      if (!userId) return;
+
       try {
         setLoading(true);
         setError(null);
 
         // Configurar token JWT
         if (typeof window !== "undefined") {
-          const token = localStorage.getItem("mt_token");
+          const token = sessionStorage.getItem("mt_token");
           if (token) {
             setAuthToken(token);
           }
         }
 
-        // Buscar ID do usuário
-        const userStr = localStorage.getItem("mt_user");
-        if (!userStr) {
-          throw new Error("Usuário não encontrado no localStorage");
-        }
-
-        const user = JSON.parse(userStr);
-        const userId = user.id || user.user_id || user.usuario_id;
-
-        if (!userId) {
-          throw new Error("ID do usuário não encontrado");
-        }
-
         // Buscar correlações da API
-        const correlacaoData = await corelacoes(userId);
+        const correlacaoData = await corelacoes(String(userId));
 
         if (!correlacaoData.success) {
           throw new Error(
@@ -237,7 +231,7 @@ export default function CorrelacoesCard() {
     };
 
     carregarCorrelacoes();
-  }, []);
+  }, [user]);
 
   // Effect para verificar overflow quando as correlações mudam
   useEffect(() => {

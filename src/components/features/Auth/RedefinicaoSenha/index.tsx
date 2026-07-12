@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import ForgotPasswordModal from "./VerificacaoEmail";
-import VerifyCodeModal from "./VerificacaoCodigo";
-import ResetPasswordModal from "./AtualizacaoSenha";
+import dynamic from "next/dynamic";
+
+const ForgotPasswordModal = dynamic(() => import("./VerificacaoEmail"), { ssr: false });
+const VerifyCodeModal = dynamic(() => import("./VerificacaoCodigo"), { ssr: false });
+const ResetPasswordModal = dynamic(() => import("./AtualizacaoSenha"), { ssr: false });
 
 interface Props {
   isOpen: boolean;

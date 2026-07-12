@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation"; // ✅ Importa o hook para redireci
 import { useTheme } from "@/contexts/ThemeContext";
 import Image from "next/image";
 import { deleteAccount } from "@/lib/api/auth";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface DeleteAccountModalProps {
   isOpen: boolean;
@@ -17,6 +18,7 @@ export default function DeleteAccountModal({
 }: DeleteAccountModalProps) {
   const { theme } = useTheme();
   const router = useRouter(); // ✅ Inicializa o hook do Next.js
+  const { user, logout } = useAuth();
   const [inputEmail, setInputEmail] = useState("");
   const [deleteLoading, setDeleteLoading] = useState(false);
 
@@ -40,10 +42,7 @@ export default function DeleteAccountModal({
   const descriptionColor = isDark ? "text-gray-300" : "text-gray-500";
 
   // ✅ Corrigido: pega o e-mail real do localStorage
-  const registeredEmail =
-    typeof window !== "undefined"
-      ? JSON.parse(localStorage.getItem("mt_user") || "{}")?.email || ""
-      : "";
+  const registeredEmail = user?.email || "";
 
   const isEmailMatch =
     inputEmail.trim().toLowerCase() === registeredEmail.toLowerCase();
@@ -54,11 +53,12 @@ export default function DeleteAccountModal({
     try {
       await deleteAccount();
 
-      // ✅ Remove dados locais e redireciona
+      // ✅ Limpa a sessão
+      sessionStorage.clear();
       localStorage.clear();
       setDeleteLoading(false);
       onDelete();
-      router.push("/"); // ✅ Redireciona para a Home
+      logout(); // ✅ Executa o logout no Context para limpar o estado e redirecionar
     } catch (error) {
       setDeleteLoading(false);
       console.error("Falha ao deletar a conta:", error);

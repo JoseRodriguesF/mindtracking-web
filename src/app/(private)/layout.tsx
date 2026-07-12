@@ -18,14 +18,14 @@ export default function PrivateLayout({
 
   const hasStoredToken = useMemo(() => {
     if (typeof window === "undefined") return null;
-    return localStorage.getItem("mt_token");
+    return sessionStorage.getItem("mt_token");
   }, []);
 
   useEffect(() => {
     if (loading) return;
 
     const storedToken =
-      typeof window !== "undefined" ? localStorage.getItem("mt_token") : null;
+      typeof window !== "undefined" ? sessionStorage.getItem("mt_token") : null;
 
     if (!token && !storedToken) {
       setIsAuthorized(false);

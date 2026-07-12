@@ -7,7 +7,7 @@ export const sendChat = async (payload: { message: string; context?: unknown }) 
   let token: string | null = null;
   if (typeof window !== "undefined") {
     try {
-      token = localStorage.getItem("mt_token");
+      token = sessionStorage.getItem("mt_token");
     } catch {}
   }
 

@@ -236,7 +236,7 @@ export default function Athena() {
 
     try {
       if (typeof window !== "undefined") {
-        const token = localStorage.getItem("mt_token");
+        const token = sessionStorage.getItem("mt_token");
         if (token) {
           setAuthToken(token);
         } else {

@@ -19,6 +19,7 @@ export interface UserData {
   telefone?: string | null;
   genero?: string | null;
   fotoPerfil?: string | null;
+  questionario_inicial?: boolean;
 }
 
 type AuthContextType = {
@@ -66,31 +67,19 @@ const normalizeUserRecord = (raw: Record<string, unknown>): UserData => {
     telefone: pickString(raw, "telefone") ?? null,
     genero: pickString(raw, "genero") ?? null,
     fotoPerfil: fotoPerfilCandidate,
+    questionario_inicial: raw["questionario_inicial"] === true || raw["questionarioInicial"] === true,
   };
 };
 
-const mergeStoragePayload = (
-  raw: Record<string, unknown>,
-  normalized: UserData,
-) => ({
-  ...raw,
-  ...normalized,
-  fotoPerfil: normalized.fotoPerfil,
-});
-
 const normalizeUserFromUnknown = (
   value: unknown,
-): { normalized: UserData; storagePayload: Record<string, unknown> } | null => {
+): UserData | null => {
   if (!value) return null;
 
   if (Array.isArray(value)) {
     const firstRecord = value.find(isRecord);
     if (!firstRecord) return null;
-    const normalized = normalizeUserRecord(firstRecord);
-    return {
-      normalized,
-      storagePayload: mergeStoragePayload(firstRecord, normalized),
-    };
+    return normalizeUserRecord(firstRecord);
   }
 
   if (!isRecord(value)) return null;
@@ -102,11 +91,7 @@ const normalizeUserFromUnknown = (
 
   if (!isRecord(rawUser)) return null;
 
-  const normalized = normalizeUserRecord(rawUser);
-  return {
-    normalized,
-    storagePayload: mergeStoragePayload(rawUser, normalized),
-  };
+  return normalizeUserRecord(rawUser);
 };
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -119,28 +104,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const fetchUserData = useCallback(async () => {
     try {
       const response = await authService.dadosUser();
-      const parsed = normalizeUserFromUnknown(
-        isRecord(response) && "user" in response ? response.user : response,
-      );
+      const rawUser = isRecord(response) && "user" in response ? response.user : response;
+      const parsed = normalizeUserFromUnknown(rawUser);
 
       if (!parsed) {
         setUser(null);
-        if (typeof window !== "undefined") {
-          localStorage.removeItem("mt_user");
-        }
         return;
       }
 
-      setUser(parsed.normalized);
-      if (typeof window !== "undefined") {
-        localStorage.setItem("mt_user", JSON.stringify(parsed.storagePayload));
-      }
+      setUser(parsed);
     } catch (err) {
       console.error("Erro ao carregar dados do usuário:", err);
       setUser(null);
-      if (typeof window !== "undefined") {
-        localStorage.removeItem("mt_user");
-      }
     }
   }, []);
 
@@ -150,13 +125,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         setToken(newToken);
         setAuthToken(newToken);
         if (typeof window !== "undefined") {
-          localStorage.setItem("mt_token", newToken);
+          sessionStorage.setItem("mt_token", newToken);
         }
       } else {
         setToken(null);
         setAuthToken(null);
         if (typeof window !== "undefined") {
-          localStorage.removeItem("mt_token");
+          sessionStorage.removeItem("mt_token");
         }
       }
 
@@ -166,9 +141,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
       if (rawUser === null) {
         setUser(null);
-        if (typeof window !== "undefined") {
-          localStorage.removeItem("mt_user");
-        }
         return;
       }
 
@@ -180,10 +152,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         return;
       }
 
-      setUser(parsed.normalized);
-      if (typeof window !== "undefined") {
-        localStorage.setItem("mt_user", JSON.stringify(parsed.storagePayload));
-      }
+      setUser(parsed);
     },
     [],
   );
@@ -193,27 +162,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       if (!prev) {
         return prev;
       }
-
-      const updated = { ...prev, ...newData };
-
-      if (typeof window !== "undefined") {
-        try {
-          const stored = localStorage.getItem("mt_user");
-          if (stored) {
-            const parsedStored = JSON.parse(stored);
-            if (isRecord(parsedStored)) {
-              const merged = { ...parsedStored, ...newData };
-              localStorage.setItem("mt_user", JSON.stringify(merged));
-            }
-          } else {
-            localStorage.setItem("mt_user", JSON.stringify(updated));
-          }
-        } catch (error) {
-          console.error("Erro ao atualizar mt_user no localStorage:", error);
-        }
-      }
-
-      return updated;
+      return { ...prev, ...newData };
     });
   };
 
@@ -235,29 +184,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       }
 
       try {
-        const storedToken = localStorage.getItem("mt_token");
-        const storedUser = localStorage.getItem("mt_user");
+        const storedToken = sessionStorage.getItem("mt_token");
 
         if (storedToken) {
           setToken(storedToken);
           setAuthToken(storedToken);
-        }
-
-        if (storedUser) {
-          try {
-            const parsedStored = JSON.parse(storedUser);
-            const normalized = normalizeUserFromUnknown(parsedStored);
-            if (normalized) {
-              setUser(normalized.normalized);
-            }
-          } catch (error) {
-            console.error("Erro ao parsear mt_user do localStorage:", error);
-          }
-        }
-
-        if (storedToken) {
           await fetchUserData();
         }
+      } catch (error) {
+        console.error("Erro ao carregar dados salvos:", error);
       } finally {
         if (isMounted) {
           setLoading(false);
@@ -288,6 +223,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const logout = () => {
     syncAuthState(null, null);
+    if (typeof window !== "undefined") {
+      sessionStorage.clear();
+      localStorage.clear();
+    }
     window.location.href = "/";
   };
 

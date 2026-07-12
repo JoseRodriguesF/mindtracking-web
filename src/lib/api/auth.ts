@@ -11,8 +11,6 @@ type User = {
 export type LoginResponse = {
   token: string;
   user?: User | string | User[];
-  email_verificado?: boolean;
-  emailVerified?: boolean;
   questionario_inicial?: boolean;
   questionarioInicial?: boolean;
 };
@@ -38,13 +36,6 @@ export const register = async (payload: {
   return data;
 };
 
-export const verifyEmail = async (payload: {
-  email: string;
-  codigo: string;
-}) => {
-  const { data } = await api.post("/auth/verify-email", payload);
-  return data;
-};
 
 export const recuperarSenha = async (payload: { email: string }) => {
   const { data } = await api.post("/auth/recuperar-senha", payload);

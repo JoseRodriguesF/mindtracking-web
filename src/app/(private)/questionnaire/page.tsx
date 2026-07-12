@@ -62,7 +62,7 @@ type Pergunta = {
 
 const Questionnaire = () => {
   const { theme } = useTheme();
-  const { user } = useAuth();
+  const { user, updateUserData, fetchUserData } = useAuth();
   const router = useRouter();
   const [questions, setQuestions] = useState<Pergunta[]>([]);
   const [loadingQuestions, setLoadingQuestions] = useState(true);
@@ -83,7 +83,7 @@ const Questionnaire = () => {
         console.log("[Questionnaire] Carregando perguntas...");
         setLoadingQuestions(true);
         if (typeof window !== "undefined") {
-          const token = localStorage.getItem("mt_token");
+          const token = sessionStorage.getItem("mt_token");
           if (token) {
             console.log("[Questionnaire] Token JWT encontrado, configurando axios...");
             setAuthToken(token);
@@ -93,22 +93,10 @@ const Questionnaire = () => {
         }
 
         let usuarioJaFezInicial = false;
-if (user && (user as UserLike).questionario_inicial === true) {
-  usuarioJaFezInicial = true;
-} else if (typeof window !== "undefined") {
-  try {
-    const userStr = localStorage.getItem("mt_user");
-    if (userStr) {
-      const userFromStorage = JSON.parse(userStr);
-      if (userFromStorage.questionario_inicial === true) {
-        usuarioJaFezInicial = true;
-      }
-    }
-  } catch (e) {
-    console.warn("Erro parsing localStorage.mt_user:", e);
-  }
-}
-setIsDiario(usuarioJaFezInicial);
+        if (user && (user as UserLike).questionario_inicial === true) {
+          usuarioJaFezInicial = true;
+        }
+        setIsDiario(usuarioJaFezInicial);
         console.log("[Questionnaire] isDiario definido como:", usuarioJaFezInicial);
 
         console.log("[Questionnaire] Chamando getPerguntas com parametro diario =", usuarioJaFezInicial);
@@ -206,7 +194,7 @@ setIsDiario(usuarioJaFezInicial);
     setIsSubmitting(true);
     try {
       if (typeof window !== "undefined") {
-        const token = localStorage.getItem("mt_token");
+        const token = sessionStorage.getItem("mt_token");
         if (token) setAuthToken(token);
       }
       const maybeUser = user as UserLike | null;
@@ -215,7 +203,7 @@ setIsDiario(usuarioJaFezInicial);
         usuarioId = Number(maybeUser.id ?? maybeUser.usuario_id ?? maybeUser.user_id ?? maybeUser.usuarioId ?? maybeUser.ID ?? maybeUser._id ?? null) || null;
       }
       if (!usuarioId && typeof window !== 'undefined') {
-        const token = localStorage.getItem('mt_token');
+        const token = sessionStorage.getItem('mt_token');
         if (token) {
           try {
             const parts = token.split('.');
@@ -243,19 +231,9 @@ setIsDiario(usuarioJaFezInicial);
         await responderDiario(payload);
       } else {
         await responderQuestionario(payload);
-        if (typeof window !== "undefined") {
-          try {
-            const userStr = localStorage.getItem("mt_user");
-            if (userStr) {
-              const userFromStorage = JSON.parse(userStr);
-              userFromStorage.questionario_inicial = true;
-              localStorage.setItem("mt_user", JSON.stringify(userFromStorage));
-              setIsDiario(true);
-            }
-          } catch (e) {
-            console.debug("Erro ao atualizar localStorage:", e);
-          }
-        }
+        updateUserData({ questionario_inicial: true });
+        setIsDiario(true);
+        void fetchUserData();
       }
       router.push('/dashboard');
     } catch (error: unknown) {
@@ -277,17 +255,9 @@ setIsDiario(usuarioJaFezInicial);
         };
         const serverMessage = extractMsg(data);
         if (serverMessage && serverMessage.includes("já respondeu o questionário inicial")) {
-          try {
-            const userStr = localStorage.getItem("mt_user");
-            if (userStr) {
-              const userFromStorage = JSON.parse(userStr);
-              userFromStorage.questionario_inicial = true;
-              localStorage.setItem("mt_user", JSON.stringify(userFromStorage));
-              setIsDiario(true);
-            }
-          } catch (e) {
-            console.debug("Erro ao atualizar localStorage após erro 400:", e);
-          }
+          updateUserData({ questionario_inicial: true });
+          setIsDiario(true);
+          void fetchUserData();
           alert("Você já completou o questionário inicial. Redirecionando para o dashboard...");
           router.push('/dashboard');
           return;

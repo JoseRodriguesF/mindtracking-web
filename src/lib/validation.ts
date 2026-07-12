@@ -51,22 +51,7 @@ export function validateEmail(valueRaw: string): string | null {
   const tld = labels[labels.length - 1];
   if (!/^[A-Za-z]{2,63}$/.test(tld)) return "TLD inválido (apenas letras, 2–63)";
 
-  // Lista de domínios permitidos (em minúsculas)
-  const allowedDomains = new Set([
-    "gmail.com",
-    "yahoo.com",
-    "hotmail.com",
-    "outlook.com",
-    "yahoo.com.br",
-    "terra.com.br",
-    "uol.com.br",
-  ]);
-
-  if (!allowedDomains.has(domain.toLowerCase())) {
-    return "Este não é um domínio permitido";
-  }
-
-  // Se passou por todas as validações, retorna null
+  // Se passou por todas as validações, retorna null (restrição a domínios específicos removida para permitir ProtonMail, iCloud e domínios corporativos)
   return null;
 }
 

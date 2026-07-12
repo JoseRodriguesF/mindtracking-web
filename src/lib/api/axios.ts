@@ -5,6 +5,7 @@ const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 const api = axios.create({
   baseURL,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
@@ -21,7 +22,7 @@ export const setAuthToken = (token?: string | null) => {
 
 // ao carregar no client, tenta reaplicar token salvo
 if (typeof window !== "undefined") {
-  const token = localStorage.getItem("mt_token");
+  const token = sessionStorage.getItem("mt_token");
   if (token) setAuthToken(token);
 }
 
@@ -32,7 +33,7 @@ api.interceptors.response.use(
     const status = error?.response?.status;
     if (typeof window !== "undefined" && status === 401) {
       // limpeza local simples; você pode personalizar (ex.: refresh token)
-      localStorage.removeItem("mt_token");
+      sessionStorage.removeItem("mt_token");
       setAuthToken(null);
       // redireciona para home (que tem o modal de login)
       // só redireciona se não estiver já na home
