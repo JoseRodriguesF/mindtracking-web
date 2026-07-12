@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import QuestionarioCard from "@/components/common/Cards/Cards_Dashboard/QuestionarioCard";
 import EstadoEmocionalCard from "@/components/common/Cards/Cards_Dashboard/EstadoEmocionalCard";
 import RecomendacoesCard from "@/components/common/Cards/Cards_Dashboard/RecomendacoesCard";
@@ -20,63 +20,19 @@ const AthenaCard = dynamic(() => import("@/components/common/Cards/Cards_Dashboa
   ssr: false,
   loading: () => <div className="h-[250px] w-full animate-pulse bg-gray-100 dark:bg-slate-800 rounded-2xl" />
 });
-import api, { setAuthToken } from "@/lib/api/axios";
-import { verificarDiario, historico } from "@/lib/api/questionario";
+import { setAuthToken } from "@/lib/api/axios";
 import { useAuth } from "@/contexts/AuthContext";
 
 export default function Dashboard() {
   const { user, loading: authLoading } = useAuth();
-  const [questionarioStatus, setQuestionarioStatus] = useState({
-    respondeuHoje: false,
-    respondidos: 0,
-    loading: true,
-  });
-  const [usuarioId, setUsuarioId] = useState<string | null>(null);
-  const [historicoData, setHistoricoData] = useState(null);
 
   useEffect(() => {
     if (authLoading || !user) return;
 
-    const id = user.id;
-    if (!id) return;
-    setUsuarioId(String(id));
-
-    const init = async () => {
-      if (typeof window !== "undefined") {
-        const token = sessionStorage.getItem("mt_token");
-        if (token) setAuthToken(token);
-      }
-
-      try {
-        const [respVerif, respHistorico, estatisticasResponse] = await Promise.all([
-          verificarDiario(String(id)),
-          historico(String(id)),
-          api.get(`/questionario/estatisticas/${id}`)
-        ]);
-
-        const jaRespondido =
-          respVerif?.ja_respondido === true ||
-          respVerif?.data?.ja_respondido === true;
-
-        // Buscar e guardar histórico no estado
-        setHistoricoData(respHistorico);
-
-        setQuestionarioStatus({
-          respondeuHoje: jaRespondido,
-          respondidos:
-            estatisticasResponse?.data?.estatisticas?.total_questionarios || 0,
-          loading: false,
-        });
-      } catch {
-        setQuestionarioStatus({
-          respondeuHoje: false,
-          respondidos: 0,
-          loading: false,
-        });
-      }
-    };
-
-    init();
+    if (typeof window !== "undefined") {
+      const token = sessionStorage.getItem("mt_token");
+      if (token) setAuthToken(token);
+    }
   }, [user, authLoading]);
 
   return (
@@ -89,19 +45,15 @@ export default function Dashboard() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 max-w-[92%] mx-auto lg:mx-0 lg:max-w-[98%] flex-shrink-0">
-          <QuestionarioCard
-            respondidos={questionarioStatus.respondidos}
-            respondeuHoje={questionarioStatus.respondeuHoje}
-            loading={questionarioStatus.loading}
-          />
-          {usuarioId && <EstadoEmocionalCard usuarioId={usuarioId} />}
+          <QuestionarioCard />
+          <EstadoEmocionalCard />
           <RecomendacoesCard />
         </div>
 
         {/* Segunda linha de cards (gráfico, diário, correlações, Athena) */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 max-w-[92%] mx-auto lg:mx-0 my-4 lg:my-4 lg:max-w-[98%] lg:flex-1 lg:min-h-0 lg:overflow-hidden">
           <div className="h-full min-h-0">
-            <GraficoCard historicoData={historicoData} />
+            <GraficoCard />
           </div>
           <div className="h-full min-h-0">
             <DiarioEmocionalCard />

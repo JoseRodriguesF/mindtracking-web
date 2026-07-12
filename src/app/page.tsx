@@ -146,7 +146,7 @@ export default function Home() {
               darkMode ? "text-slate-50" : "text-slate-900"
             }`}
           >
-            Monitore seu estado emocional com os questionários da MindTracking.
+            Monitore seu estado emocional com o diário da MindTracking.
             Acompanhe seu progresso e entenda suas emoções com nossos relatórios
             visuais.
           </p>
@@ -154,8 +154,8 @@ export default function Home() {
 
         <div className="flex flex-col lg:flex-row items-center justify-center gap-16 md:gap-12 lg:gap-8">
           <Card
-            title="Questionários que se adaptam ao seu dia"
-            parag="Responda a perguntas que refletem seu estado atual."
+            title="Diários interativos e acolhedores"
+            parag="Escreva sobre o seu dia e expresse como você se sente."
           />
 
           <Card
@@ -226,7 +226,7 @@ export default function Home() {
           <CardBeneficio
             icon="/images/icons/list.svg"
             title="Reduza estresse e ansiedade"
-            parag="Com questionários regulares e suporte, encontre mais calma no seu dia a dia."
+            parag="Com o registro diário e o suporte da Athena, encontre mais calma no seu dia a dia."
           />
 
           <CardBeneficio

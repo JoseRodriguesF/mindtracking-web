@@ -4,15 +4,11 @@ import api from "./axios";
 type User = {
   email_verificado?: boolean;
   emailVerified?: boolean;
-  questionario_inicial?: boolean;
-  questionarioInicial?: boolean;
 };
 
 export type LoginResponse = {
   token: string;
   user?: User | string | User[];
-  questionario_inicial?: boolean;
-  questionarioInicial?: boolean;
 };
 
 export const login = async (email: string, senha: string) => {

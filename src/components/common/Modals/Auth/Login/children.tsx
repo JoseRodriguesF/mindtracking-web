@@ -11,10 +11,6 @@ import { validateEmail } from "@/lib/validation";
 import ForgotPasswordModal from "@/components/features/Auth/RedefinicaoSenha/VerificacaoEmail";
 import ButtonEsqueceuSenha from "@/components/common/Buttons/ButtonEsqueceuSenha";
 
-interface User {
-  questionario_inicial?: boolean;
-  questionarioInicial?: boolean;
-}
 
 export default function Login() {
   const { theme } = useTheme();
@@ -76,29 +72,7 @@ export default function Login() {
     try {
       const res = await loginApi(email, password);
 
-      // Normaliza o objeto user
-      let userObj: User | null = null;
-      try {
-        if (!res.user) {
-          userObj = null;
-        } else if (typeof res.user === "string") {
-          userObj = JSON.parse(res.user);
-        } else if (Array.isArray(res.user)) {
-          userObj = res.user.length > 0 ? res.user[0] : null;
-        } else {
-          userObj = res.user as User;
-        }
-      } catch {
-        userObj = res.user as User;
-      }
 
-      const questionarioInicial =
-        res?.questionario_inicial ??
-        res?.questionarioInicial ??
-        (userObj &&
-          (userObj.questionario_inicial ??
-            userObj.questionarioInicial ??
-            null));
 
       // Armazena token e user
       syncAuthState(res.token ?? null, res.user);
@@ -109,12 +83,7 @@ export default function Login() {
           sessionStorage.removeItem("mt_token");
         }
       }
-      // Redireciona conforme questionario_inicial
-      if (questionarioInicial === false) {
-        router.push("/questionnaire");
-      } else {
-        router.push("/dashboard");
-      }
+      router.push("/dashboard");
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : "Erro desconhecido";

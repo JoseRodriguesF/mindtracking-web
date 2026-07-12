@@ -86,23 +86,19 @@ const FAQ = () => {
   const faqData = [
     {
       question: "O que é a MindTracking?",
-      answer: "O MindTracking é uma plataforma de saúde mental que permite aos usuários responder questionários diários sobre seu humor e bem-estar. Nossa ferramenta ajuda você a monitorar seu estado emocional, identificar padrões e receber insights personalizados para melhorar sua saúde mental."
+      answer: "O MindTracking é uma plataforma de saúde mental que permite aos usuários registrar diários emocionais sobre o seu dia e sentimentos. Nossa ferramenta ajuda você a monitorar seu estado emocional, identificar padrões de humor e receber insights personalizados para melhorar seu bem-estar."
     },
     {
       question: "A MindTracking substitui a ajuda de um profissional?",
       answer: "Não. O MindTracking é uma ferramenta de apoio para autoconhecimento e monitoramento emocional, mas não substitui o acompanhamento profissional. Recomendamos sempre consultar um especialista em saúde mental para diagnóstico e tratamento adequados."
     },
     {
-      question: "Minhas respostas são privadas?",
-      answer: "Sim! A privacidade dos seus dados é nossa prioridade. Todas as suas respostas são armazenadas de forma criptografada e seguimos rigorosos protocolos de segurança. Seus dados pessoais nunca são compartilhados com terceiros sem seu consentimento explícito."
-    },
-    {
-      question: "Como funcionam os questionários?",
-      answer: "Nossos questionários são projetados para serem rápidos e intuitivos. Você responde perguntas sobre seu humor, sono, níveis de estresse e outras métricas importantes. As respostas são registradas diariamente, permitindo um acompanhamento consistente do seu bem-estar."
+      question: "Meus diários e dados são privados?",
+      answer: "Sim! A privacidade dos seus dados é nossa prioridade. Todas as suas anotações e registros são armazenados de forma criptografada e seguimos rigorosos protocolos de segurança. Seus dados pessoais nunca são compartilhados com terceiros sem seu consentimento explícito."
     },
     {
       question: "Como funciona a Athena?",
-      answer: "A Athena é uma assistente virtual que utiliza inteligência artificial para oferecer suporte emocional e dicas personalizadas. Ele analisa seus padrões de resposta e oferece insights relevantes para ajudar no seu desenvolvimento pessoal."
+      answer: "A Athena é uma assistente virtual que utiliza inteligência artificial para oferecer suporte emocional e dicas personalizadas. Ela analisa seus diários emocionais e conversas para oferecer insights acolhedores e relevantes que ajudam no seu desenvolvimento pessoal."
     }
   ];
 

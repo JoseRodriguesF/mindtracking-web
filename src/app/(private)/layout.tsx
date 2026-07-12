@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Sidebar from "@/components/layout/Sidebar";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -12,7 +12,6 @@ export default function PrivateLayout({
 }) {
   const { token, loading } = useAuth();
   const router = useRouter();
-  const pathname = usePathname();
   const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
   const hasRedirectedRef = useRef(false);
 
@@ -53,18 +52,10 @@ export default function PrivateLayout({
     return null;
   }
 
-  const isQuestionnairePage = pathname === "/questionnaire";
-
   return (
     <div className="min-h-screen">
-      {!isQuestionnairePage && <Sidebar />}
-      <main
-        className={
-          isQuestionnairePage
-            ? "w-full min-h-screen h-full"
-            : "min-h-screen h-full transition-all duration-300"
-        }
-      >
+      <Sidebar />
+      <main className="min-h-screen h-full transition-all duration-300">
         {children}
       </main>
     </div>

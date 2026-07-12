@@ -19,7 +19,6 @@ export interface UserData {
   telefone?: string | null;
   genero?: string | null;
   fotoPerfil?: string | null;
-  questionario_inicial?: boolean;
 }
 
 type AuthContextType = {
@@ -67,7 +66,6 @@ const normalizeUserRecord = (raw: Record<string, unknown>): UserData => {
     telefone: pickString(raw, "telefone") ?? null,
     genero: pickString(raw, "genero") ?? null,
     fotoPerfil: fotoPerfilCandidate,
-    questionario_inicial: raw["questionario_inicial"] === true || raw["questionarioInicial"] === true,
   };
 };
 

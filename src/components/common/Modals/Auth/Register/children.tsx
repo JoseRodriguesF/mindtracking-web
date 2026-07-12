@@ -204,7 +204,7 @@ export default function Register() {
             sessionStorage.removeItem("mt_token");
           }
         }
-        router.push("/questionnaire");
+        router.push("/dashboard");
       } catch (error: unknown) {
         const errorMessage =
           error instanceof Error ? error.message : "Erro desconhecido";
