@@ -11,6 +11,7 @@ import {
   Moon,
   Sun,
   LogOut,
+  UserPlus,
 } from "lucide-react";
 import { useTheme } from "../../../contexts/ThemeContext";
 import { useAuth } from "../../../contexts/AuthContext";
@@ -19,7 +20,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 
 const menuItems = [
   { title: "Dashboard", icon: <LayoutDashboard size={24} />, href: "/dashboard" },
-  { title: "Seu diário emocional", icon: <NotebookPen size={24} />, href: "/diario" },
+  { title: "Pacientes", icon: <UserPlus size={24} />, href: "/pacientes" },
+  { title: "Relatório de consultas", icon: <NotebookPen size={24} />, href: "/relatorios" },
   { title: "Athena", icon: <MessageSquareHeart size={24} />, href: "/athena" },
 ];
 
@@ -63,7 +65,11 @@ export default function Sidebar({ onToggle }: { onToggle?: (open: boolean) => vo
         >
           <div className="flex items-center gap-3">
             <Image
-              src="/images/icons/Logo-blue-600-w2.svg"
+              src={
+                theme === "dark"
+                  ? "/images/icons/Logo_branca.svg"
+                  : "/images/icons/Logo-blue-600-w2.svg"
+              }
               alt="Logo"
               width={40}
               height={40}
@@ -102,7 +108,7 @@ export default function Sidebar({ onToggle }: { onToggle?: (open: boolean) => vo
             <Image
               src={
                 theme === "dark"
-                  ? "/images/icons/Logo-blue-600-w2.svg"
+                  ? "/images/icons/Logo_branca.svg"
                   : "/images/icons/Logo-blue-600-w2.svg"
               }
               alt="Logo"
@@ -210,7 +216,11 @@ export default function Sidebar({ onToggle }: { onToggle?: (open: boolean) => vo
             <div className="flex items-center justify-between mb-6 px-5">
               <div className="flex items-center gap-2">
                 <Image
-                  src="/images/icons/Logo-blue-600-w2.svg"
+                  src={
+                    theme === "dark"
+                      ? "/images/icons/Logo_branca.svg"
+                      : "/images/icons/Logo-blue-600-w2.svg"
+                  }
                   alt="Logo"
                   width={40}
                   height={40}

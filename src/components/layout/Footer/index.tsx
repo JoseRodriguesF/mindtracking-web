@@ -47,7 +47,7 @@ const scrollToHeader = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) 
                   rel="noopener noreferrer"
                   className="hover:text-blue-600"
                 >
-                  (11) 9 4996-3686
+        
                 </a>
               </li>
               <li className="text-sm whitespace-nowrap">
@@ -58,7 +58,6 @@ const scrollToHeader = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) 
                   rel="noopener noreferrer"
                   className="hover:text-blue-600"
                 >
-                  suporte.mindtracking@gmail.com
                 </a>
               </li>
             </ul>
@@ -170,8 +169,8 @@ const scrollToHeader = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) 
               "
             >
               <h2 className="text-2xl leading-snug font-semibold  md:text-[18px] md:w-[280px] lg:w-auto md:ml-2 lg:text-[22px] md:mt-6">
-                Pronto para conhecer seu
-                <br className="md:hidden" /> espaço emocional?
+                Pronto para transformar sua
+                <br className="md:hidden" /> gestão clínica?
               </h2>
               <a
                 href="#header"

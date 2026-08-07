@@ -30,14 +30,13 @@ export default function Home() {
           <h1
             className={`text-2xl md:text-4xl lg:text-6xl text-center lg:text-start font-bold !leading-snug w-full ${darkMode ? "text-slate-50" : "text-slate-900"}`}
           >
-            Cuide da sua mente com MindTracking
+            Potencialize sua prática clínica com MindTracking
           </h1>
 
           <p
             className={`text-base lg:text-lg md:text-xl text-center lg:text-start font-semibold !leading-snug ${darkMode ? "text-slate-50" : "text-slate-900"}`}
           >
-            Bem-vindo ao MindTracking! Aqui, você pode monitorar seu bem-estar
-            emocional e mental de forma simples e eficaz
+            Bem-vindo ao MindTracking! A plataforma inteligente desenvolvida para psicólogos e profissionais de saúde mental gerenciarem pacientes, consultas e relatórios clínicos com suporte de IA.
           </p>
 
           <div className="hidden lg:flex lg:gap-3.5">
@@ -139,33 +138,31 @@ export default function Home() {
               darkMode ? "text-slate-50" : "text-slate-900"
             }`}
           >
-            Como a MindTracking transforma seu bem-estar
+            Como a MindTracking transforma sua gestão clínica
           </h1>
           <p
             className={`font-medium md:font-semibold text-base md:text-2xl !leading-snug text-center ${
               darkMode ? "text-slate-50" : "text-slate-900"
             }`}
           >
-            Monitore seu estado emocional com o diário da MindTracking.
-            Acompanhe seu progresso e entenda suas emoções com nossos relatórios
-            visuais.
+            Cadastre pacientes, organize consultas e elabore relatórios de atendimento com estruturação por IA. Acompanhe a evolução clínica dos seus pacientes com facilidade.
           </p>
         </div>
 
         <div className="flex flex-col lg:flex-row items-center justify-center gap-16 md:gap-12 lg:gap-8">
           <Card
-            title="Diários interativos e acolhedores"
-            parag="Escreva sobre o seu dia e expresse como você se sente."
+            title="Relatórios clínicos de atendimento"
+            parag="Registre observações das consultas e estruture prontuários em poucos cliques."
           />
 
           <Card
-            title="Relatórios visuais para insights profundos"
-            parag="Visualize padrões emocionais com gráficos interativos."
+            title="Gestão de pacientes e consultas"
+            parag="Gerencie cadastros, prontuários e acompanhe o status dos atendimentos no calendário."
           />
 
           <Card
-            title="Acompanhe seu progresso de forma simples"
-            parag="Monitore sua evolução emocional com facilidade."
+            title="Assistente de IA Athena"
+            parag="Conte com suporte para tomada de decisão técnica, modelos de documentos e condutas terapêuticas."
           />
         </div>
       </section>
@@ -181,9 +178,7 @@ export default function Home() {
           </h1>
 
           <p className="text-[1em] md:text-[1.3214rem] font-semibold !leading-snug">
-            Acompanhe seu bem-estar emocional de forma prática e intuitiva.
-            Receba insights personalizados que ajudam você a entender melhor
-            suas emoções.
+            Gerencie pacientes, agendamentos e relatórios de consulta de forma prática e intuitiva. Receba insights da assistente Athena para apoiar sua rotina clínica.
           </p>
         </div>
 
@@ -206,39 +201,38 @@ export default function Home() {
         <h1
           className={`text-2xl md:text-4xl lg:text-6xl ${darkMode ? "text-slate-50" : "text-slate-900"} font-bold text-center !leading-snug`}
         >
-          Cultive uma Mente mais saúdavel e consciente
+          Potencialize sua rotina e atendimento clínico
         </h1>
 
         <p
           className={`text-base md:text-2xl ${darkMode ? "text-slate-50" : "text-slate-900"} font-semibold text-center !leading-snug`}
         >
-          Ao usar a MindTracking, você desbloqueia um caminho para um maior
-          bem-estar e autocompreensão
+          Ao usar o MindTracking, você otimiza o tempo de documentação e garante maior organização e apoio técnico para suas consultas.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-24 max-w-[1150px] w-full px-4 md:px-8">
           <CardBeneficio
             icon="/images/icons/light-bulb.svg"
-            title="Desenvolva Autoconhecimento"
-            parag="Entenda seus gatilhos, emoções e o que realmente impacta seu bem-estar."
+            title="Agilidade na Redação Clínica"
+            parag="Estruture prontuários e relatórios de atendimento rapidamente com o apoio da IA Athena."
           />
 
           <CardBeneficio
             icon="/images/icons/list.svg"
-            title="Reduza estresse e ansiedade"
-            parag="Com o registro diário e o suporte da Athena, encontre mais calma no seu dia a dia."
+            title="Organização Operacional Completa"
+            parag="Mantenha o cadastro de pacientes, agenda de consultas e pendências organizadas em um só lugar."
           />
 
           <CardBeneficio
             icon="/images/icons/heart.svg"
-            title="Cuide da sua saúde emocional"
-            parag="Crie um espaço dedicado para seu desenvolvimento pessoal e equilíbrio mental."
+            title="Apoio Técnico e Tomada de Decisão"
+            parag="Acesse hipóteses diagnósticas (DSM-5/CID-11) e sugestões de intervenções baseadas em evidências."
           />
 
           <CardBeneficio
             icon="/images/icons/protect.svg"
-            title="Fortaleça sua resiliência"
-            parag="Aprenda a lidar com os desafios da vida de forma mais equilibrada e construtiva."
+            title="Segurança e Praticidade"
+            parag="Armazenamento seguro, ambiente intuitivo e suporte contínuo para sua prática profissional."
           />
         </div>
       </section>

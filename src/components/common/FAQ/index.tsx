@@ -86,19 +86,19 @@ const FAQ = () => {
   const faqData = [
     {
       question: "O que é a MindTracking?",
-      answer: "O MindTracking é uma plataforma de saúde mental que permite aos usuários registrar diários emocionais sobre o seu dia e sentimentos. Nossa ferramenta ajuda você a monitorar seu estado emocional, identificar padrões de humor e receber insights personalizados para melhorar seu bem-estar."
+      answer: "A MindTracking é uma plataforma de gestão e apoio à decisão clínica desenvolvida para psicólogos e profissionais de saúde mental. Ela permite cadastrar pacientes, agendar consultas no calendário, elaborar relatórios de atendimento e contar com a assistente Athena para estruturação de documentos e insights terapêuticos."
     },
     {
-      question: "A MindTracking substitui a ajuda de um profissional?",
-      answer: "Não. O MindTracking é uma ferramenta de apoio para autoconhecimento e monitoramento emocional, mas não substitui o acompanhamento profissional. Recomendamos sempre consultar um especialista em saúde mental para diagnóstico e tratamento adequados."
+      question: "A assistente Athena substitui a decisão técnica do psicólogo?",
+      answer: "Não. A Athena é uma ferramenta de IA para co-pilotagem clínica. Ela auxilia na estruturação de relatórios, modelos de documentos, hipóteses diagnósticas (DSM-5/CID-11) e sugestões de intervenções baseadas em evidências, mantendo a responsabilidade técnica e diagnóstica soberanamente com o psicólogo."
     },
     {
-      question: "Meus diários e dados são privados?",
-      answer: "Sim! A privacidade dos seus dados é nossa prioridade. Todas as suas anotações e registros são armazenados de forma criptografada e seguimos rigorosos protocolos de segurança. Seus dados pessoais nunca são compartilhados com terceiros sem seu consentimento explícito."
+      question: "Os dados dos pacientes e relatórios são seguros?",
+      answer: "Sim! A privacidade e a segurança das informações dos pacientes e prontuários clínicos são nossas prioridades. Todos os dados são armazenados de forma criptografada e seguem rigorosos protocolos de segurança e confidencialidade."
     },
     {
-      question: "Como funciona a Athena?",
-      answer: "A Athena é uma assistente virtual que utiliza inteligência artificial para oferecer suporte emocional e dicas personalizadas. Ela analisa seus diários emocionais e conversas para oferecer insights acolhedores e relevantes que ajudam no seu desenvolvimento pessoal."
+      question: "Como o sistema de relatórios de consultas ajuda minha rotina?",
+      answer: "O sistema permite vincular anotações de evolução clínica a cada atendimento agendado. Com o recurso 'Estruturar Texto', a assistente Athena formata suas anotações em tópicos claros (Queixa Principal, Observações Clínicas e Conduta Terapêutica) em segundos."
     }
   ];
 

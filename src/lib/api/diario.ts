@@ -15,3 +15,8 @@ export const getDiarioById = async (id: string) => {
   const { data } = await api.get(`/api/diario/${id}`);
   return data;
 };
+
+// Aliases para Relatórios de Consultas
+export const createRelatorio = createDiario;
+export const getRelatorios = getDiarios;
+export const getRelatorioById = getDiarioById;

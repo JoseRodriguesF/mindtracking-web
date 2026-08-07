@@ -1,12 +1,12 @@
 "use client";
 
 import React, { Suspense } from "react";
-import DiarioClient from "./DiarioClient";
+import RelatoriosClient from "./RelatoriosClient";
 
-export default function DiarioPage() {
+export default function RelatoriosPage() {
   return (
     <Suspense fallback={<p>Carregando...</p>}>
-      <DiarioClient />
+      <RelatoriosClient />
     </Suspense>
   );
 }

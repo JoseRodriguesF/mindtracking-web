@@ -130,8 +130,8 @@ export default function ConverseAthenaCard() {
   // Texto dinâmico baseado na quantidade de conversas
   const textoConversa =
     !loading && !error && (conversasComAthena ?? 0) > 0
-      ? `É muito bom conversar com você! Já tivemos ${conversasComAthena} conversas juntos.`
-      : "Fale livremente sobre como está se sentindo, Athena está aqui para ouvir e apoiar você.";
+      ? `Sua assistente clínica está pronta! Já realizaram ${conversasComAthena} interações de apoio.`
+      : "Athena é sua assistente para redação de relatórios, suporte clínico e navegação na plataforma.";
 
   // Componente de seta
   const ArrowButton = ({
@@ -231,7 +231,7 @@ export default function ConverseAthenaCard() {
                 {loading
                   ? "Carregando..."
                   : error
-                    ? "Fale livremente sobre como está se sentindo, Athena está aqui para ouvir e apoiar você."
+                    ? "Athena é sua assistente para redação de relatórios, suporte clínico e navegação na plataforma."
                     : textoConversa}
               </p>
 
@@ -269,7 +269,7 @@ export default function ConverseAthenaCard() {
                       {loading
                         ? "Carregando..."
                         : error
-                          ? "Fale livremente sobre como está se sentindo, Athena está aqui para ouvir e apoiar você."
+                          ? "Athena é sua assistente para redação de relatórios, suporte clínico e navegação na plataforma."
                           : textoConversa}
                     </p>
                   </div>
@@ -307,7 +307,7 @@ export default function ConverseAthenaCard() {
                     {loading
                       ? "Carregando..."
                       : error
-                        ? "Fale livremente sobre como está se sentindo, Athena está aqui para ouvir e apoiar você."
+                        ? "Athena é sua assistente para redação de relatórios, suporte clínico e navegação na plataforma."
                         : textoConversa}
                   </p>
                 </div>

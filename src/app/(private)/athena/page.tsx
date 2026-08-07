@@ -102,6 +102,12 @@ export default function Athena() {
           // É uma nova navegação (navigate, back_forward, etc), limpar mensagens antigas
           localStorage.removeItem(STORAGE_KEY);
         }
+        // Verificar se há prompt vindo do card de IA do Dashboard
+        const initialPrompt = sessionStorage.getItem("athena_initial_prompt");
+        if (initialPrompt) {
+          setInputValue(initialPrompt);
+          sessionStorage.removeItem("athena_initial_prompt");
+        }
       } catch (error) {
         console.error("Erro ao carregar mensagens do localStorage:", error);
         // Se houver erro, limpar o localStorage corrompido
@@ -146,14 +152,14 @@ export default function Athena() {
     }
   }, [isLoaded, messages.length]);
 
-  // Mensagens sugeridas
+  // Mensagens sugeridas para o psicólogo
   const suggestedMessages = [
-    "O que posso fazer para me sentir melhor hoje?",
-    "Estou me sentindo muito sobrecarregado hoje...",
-    "Estou precisando de algo para me animar",
-    "Como posso melhorar minha rotina de sono?",
-    "Quais exercícios posso fazer para relaxar?",
-    "Como lidar com a ansiedade no trabalho?",
+    "Como escrever um relatório de evolução clínica?",
+    "Ajuda para estruturar uma anamnese de paciente",
+    "Sugestões de intervenção em TCC para ansiedade",
+    "Como usar o registro de pacientes e calendário?",
+    "Como acompanhar a evolução clínica do paciente?",
+    "Quais hipóteses considerar em burnout profissional?",
   ];
 
   const scrollToBottom = () => {
@@ -373,16 +379,13 @@ export default function Athena() {
               </div>
               <div className="flex-1 max-w-2xl order-2 lg:order-none text-center lg:text-left">
                 <h2 className="text-lg sm:text-xl lg:text-2xl font-bold mb-2 sm:mb-3">
-                  Bem-vindo(a) ao Chat com Athena!
+                  Bem-vindo(a) à Athena – Sua Assistente Clínica!
                 </h2>
                 <p className="text-sm sm:text-base mb-2 sm:mb-3">
-                  Eu sou a Athena, uma IA criada para ajudar você a refletir
-                  sobre seu bem-estar emocional e hábitos de vida.
+                  Sou a assistente virtual especializada da MindTracking, desenvolvida para auxiliar você em sua rotina clínica e operacional.
                 </p>
                 <p className="text-sm sm:text-base mb-4 sm:mb-6">
-                  Podemos conversar sobre seus sentimentos, desafios, metas e
-                  juntos podemos dar os primeiros passos para uma vida mais
-                  leve.
+                  Posso ajudar na elaboração de relatórios, modelos de anamnese, navegação no sistema e suporte técnico para tomada de decisões terapêuticas.
                 </p>
                 <div>
                   <h3 className="text-sm sm:text-base font-semibold mb-2 sm:mb-3">
@@ -519,7 +522,7 @@ export default function Athena() {
                                 ${theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-gray-900"}
                             `}
               type="text"
-              placeholder="Compartilhe o que está acontecendo agora..."
+              placeholder="Digite sua dúvida clínica, pedido de relatório ou pergunta sobre o sistema..."
               value={inputValue}
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
@@ -535,8 +538,7 @@ export default function Athena() {
           <p
             className={`text-center text-xs mt-1.5 sm:mt-2 px-2 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}
           >
-            A Athena está aqui para conversar e orientar, mas nada substitui o
-            cuidado de um psicólogo ou psiquiatra.
+            Athena é uma IA de apoio à decisão clínica e redação do psicólogo. A responsabilidade diagnóstica e conduta técnica final é do profissional.
           </p>
         </div>
       </div>
