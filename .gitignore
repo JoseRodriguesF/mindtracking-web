@@ -1,7 +1,5 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
+# Dependencies
+node_modules/
 /.pnp
 .pnp.*
 .yarn/*
@@ -10,32 +8,71 @@
 !.yarn/releases
 !.yarn/versions
 
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
+# Environment Variables & Secrets
+.env
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+!.env.example
+!.env.local.example
+*.secret
+credentials.json
 *.pem
 
-# debug
+# Next.js & Build Output
+.next/
+out/
+dist/
+build/
+.tmp/
+
+# TypeScript & Cache
+*.tsbuildinfo
+next-env.d.ts
+
+# Testing & Coverage
+coverage/
+coverage-final.json
+lcov.info
+test-results.xml
+.vitest/
+
+# Logs
+logs/
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# AI Assistants & Prompts
+claude.md
+CLAUDE.md
+.claude/
+claude/
+AGENTS.md
+*.local
 
-# vercel
-.vercel
+# Temporary / Scratch files & Reports
+scratch/
+knip-report.txt
+*.tmp
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# OS & Editors
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*.swo
+
+# Vercel CLI cache
+.vercel/

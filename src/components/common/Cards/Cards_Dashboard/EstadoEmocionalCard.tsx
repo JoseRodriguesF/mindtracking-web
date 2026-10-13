@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useTheme } from "@/contexts/ThemeContext";
 import BaseCard from "./BaseCard";
 import { getDiarios } from "@/lib/api/diario";
+import { FileText } from "lucide-react";
 
 interface Consulta {
   id: string;
@@ -20,11 +20,6 @@ interface DiarioEntrada {
 }
 
 export default function EstadoEmocionalCard() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const textColor = isDark ? "text-white" : "text-slate-800";
-  const labelColor = isDark ? "text-slate-300" : "text-slate-600";
-
   const [relatoriosConcluidos, setRelatoriosConcluidos] = useState(0);
   const [relatoriosPendentes, setRelatoriosPendentes] = useState(0);
 
@@ -72,38 +67,22 @@ export default function EstadoEmocionalCard() {
   }, []);
 
   return (
-    <BaseCard className="w-full flex flex-col justify-between p-4">
-      <div className="mb-2">
-        <h1 className={`text-[19px] font-bold ${textColor}`}>
+    <BaseCard className="w-full flex flex-col justify-between">
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
           Status dos Relatórios
-        </h1>
+        </span>
+        <FileText className="h-4 w-4 text-zinc-500 dark:text-zinc-400" />
       </div>
 
-      <div className="grid grid-cols-2 gap-4 my-2">
-        {/* Concluídos */}
-        <div className="flex flex-col">
-          <span className={`text-sm font-semibold mb-1 ${labelColor}`}>
-            Concluídos
-          </span>
-          <span className={`text-3xl font-bold ${textColor}`}>
-            {relatoriosConcluidos}
-          </span>
+      <div className="mt-3">
+        <div className="text-2xl font-bold tracking-tight text-zinc-950 dark:text-zinc-50">
+          +{relatoriosConcluidos}
         </div>
-
-        {/* Não Concluídos / Pendentes */}
-        <div className="flex flex-col">
-          <span className={`text-sm font-semibold mb-1 ${labelColor}`}>
-            Não Concluídos
-          </span>
-          <span className={`text-3xl font-bold ${textColor}`}>
-            {relatoriosPendentes}
-          </span>
-        </div>
+        <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 font-normal">
+          {relatoriosPendentes} consulta(s) aguardando relatório
+        </p>
       </div>
-
-      <p className="text-[11px] text-gray-400 dark:text-gray-400 mt-2 font-medium">
-        Relatórios elaborados para pacientes e sessões.
-      </p>
     </BaseCard>
   );
 }

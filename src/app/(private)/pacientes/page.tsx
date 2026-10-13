@@ -287,65 +287,49 @@ export default function PacientesPage() {
         {/* Header da Página */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 shrink-0">
           <div>
-            <h1
-              className={`text-xl sm:text-2xl font-bold font-inter ${
-                isDark ? "text-white" : "text-gray-900"
-              }`}
-            >
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-950 dark:text-zinc-50 font-inter">
               Registro de Pacientes
             </h1>
-            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
+            <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">
               Cadastre e acompanhe o status de consultas e relatórios dos seus pacientes
             </p>
           </div>
 
           <button
             onClick={handleOpenNewModal}
-            className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white rounded-xl text-xs sm:text-sm font-semibold transition-all shadow-md flex items-center gap-2 cursor-pointer shrink-0"
+            className="px-4 py-2 bg-black hover:bg-zinc-800 active:bg-zinc-900 text-white dark:bg-white dark:text-black dark:hover:bg-zinc-200 rounded-lg text-xs sm:text-sm font-medium transition-colors shadow-xs flex items-center gap-2 cursor-pointer shrink-0"
           >
-            <UserPlus size={18} />
+            <UserPlus size={16} />
             <span>Cadastrar Paciente</span>
           </button>
         </div>
 
         {/* Container Principal */}
-        <div
-          className={`flex-1 min-h-0 flex flex-col rounded-2xl p-4 sm:p-6 ${
-            isDark
-              ? "border-2 border-blue-600 bg-slate-900"
-              : "bg-white border-2 border-slate-200 shadow-md"
-          } transition-all duration-300`}
-        >
+        <div className="flex-1 min-h-0 flex flex-col rounded-2xl p-5 sm:p-6 border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm transition-all duration-300">
           {/* Barra de Pesquisa */}
           <div className="mb-5 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
-            <div
-              className={`relative w-full sm:w-80 flex items-center rounded-xl border px-3 py-2 ${
-                isDark
-                  ? "bg-slate-800 border-slate-700 text-white"
-                  : "bg-slate-50 border-gray-200 text-gray-900"
-              }`}
-            >
-              <Search size={16} className="text-gray-400 mr-2 shrink-0" />
+            <div className="relative w-full sm:w-80 flex items-center rounded-lg border border-zinc-200 dark:border-zinc-700 px-3 py-2 bg-transparent text-zinc-900 dark:text-zinc-100 transition-colors focus-within:ring-1 focus-within:ring-zinc-950 dark:focus-within:ring-zinc-300">
+              <Search size={15} className="text-zinc-400 mr-2 shrink-0" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Buscar paciente por nome, CPF ou telefone..."
-                className="w-full bg-transparent text-xs sm:text-sm outline-none"
+                className="w-full bg-transparent text-xs sm:text-sm outline-none placeholder:text-zinc-400"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery("")}
-                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                  className="text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-100 cursor-pointer"
                 >
                   <X size={14} />
                 </button>
               )}
             </div>
 
-            <div className="text-xs text-gray-500 dark:text-gray-400">
+            <div className="text-xs text-zinc-500 dark:text-zinc-400">
               Total de pacientes:{" "}
-              <span className="font-bold text-blue-600 dark:text-blue-400">
+              <span className="font-semibold text-zinc-950 dark:text-zinc-50">
                 {filteredPacientes.length}
               </span>
             </div>
@@ -354,16 +338,12 @@ export default function PacientesPage() {
           {/* Lista de Pacientes */}
           <div className="flex-1 min-h-0 overflow-y-auto scrollbar-hide pr-1">
             {filteredPacientes.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-full py-12 text-center">
-                <UserCheck size={40} className="text-gray-400 mb-3 opacity-50" />
-                <p
-                  className={`text-base font-semibold ${
-                    isDark ? "text-white" : "text-gray-800"
-                  }`}
-                >
+              <div className="flex flex-col items-center justify-center h-full py-12 text-center text-zinc-400">
+                <UserCheck size={36} className="mb-3 opacity-40 text-zinc-400" />
+                <p className="text-sm font-medium text-zinc-950 dark:text-zinc-50">
                   Nenhum paciente encontrado.
                 </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 max-w-sm">
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 max-w-sm">
                   {searchQuery
                     ? "Tente buscar com outro termo."
                     : "Cadastre seu primeiro paciente usando o botão acima."}
@@ -391,23 +371,15 @@ export default function PacientesPage() {
                   return (
                     <div
                       key={p.id}
-                      className={`rounded-2xl p-5 border flex flex-col justify-between transition-all duration-200 ${
-                        isDark
-                          ? "bg-slate-800/90 border-slate-700 text-gray-200 hover:border-blue-500"
-                          : "bg-slate-50 border-gray-200 text-gray-800 hover:border-blue-400 shadow-sm"
-                      }`}
+                      className="rounded-xl p-5 border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 hover:bg-zinc-50/60 dark:hover:bg-zinc-800/40 flex flex-col justify-between transition-colors shadow-xs"
                     >
                       <div>
                         {/* Nome do Paciente & Idade */}
                         <div className="mb-4">
-                          <h3
-                            className={`font-bold text-lg leading-tight ${
-                              isDark ? "text-white" : "text-gray-900"
-                            }`}
-                          >
+                          <h3 className="font-semibold text-base sm:text-lg leading-tight text-zinc-950 dark:text-zinc-50">
                             {p.nomeCompleto}
                           </h3>
-                          <span className="text-xs font-medium text-gray-400 dark:text-gray-400 mt-0.5 block">
+                          <span className="text-xs font-normal text-zinc-500 dark:text-zinc-400 mt-0.5 block">
                             {calcularIdade(p.dataNascimento) || "Idade não informada"}
                           </span>
                         </div>
@@ -417,13 +389,13 @@ export default function PacientesPage() {
                           {/* Consulta Hoje */}
                           <div className="flex items-center">
                             {consultaHoje ? (
-                              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200 border border-emerald-300 dark:border-emerald-700">
-                                <Calendar size={14} />
+                              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 border border-zinc-200/60 dark:border-zinc-700/60">
+                                <Calendar size={13} className="text-zinc-700 dark:text-zinc-300" />
                                 <span>Consulta hoje às {consultaHoje.horario}</span>
                               </span>
                             ) : (
-                              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-slate-600">
-                                <Calendar size={14} />
+                              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-zinc-50 dark:bg-zinc-900/40 text-zinc-500 dark:text-zinc-400 border border-zinc-200/40 dark:border-zinc-800/60">
+                                <Calendar size={13} className="text-zinc-400" />
                                 <span>Sem consulta hoje</span>
                               </span>
                             )}
@@ -432,13 +404,13 @@ export default function PacientesPage() {
                           {/* Relatório Pendente */}
                           <div className="flex items-center">
                             {temRelatorioPendente ? (
-                              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200 border border-amber-300 dark:border-amber-700">
-                                <FileText size={14} />
+                              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 border border-zinc-200/60 dark:border-zinc-700/60">
+                                <FileText size={13} className="text-zinc-700 dark:text-zinc-300" />
                                 <span>Relatório pendente</span>
                               </span>
                             ) : (
-                              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 border border-blue-300 dark:border-blue-700">
-                                <FileText size={14} />
+                              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-zinc-50 dark:bg-zinc-900/40 text-zinc-500 dark:text-zinc-400 border border-zinc-200/40 dark:border-zinc-800/60">
+                                <FileText size={13} className="text-zinc-400" />
                                 <span>Relatórios em dia</span>
                               </span>
                             )}
@@ -447,21 +419,21 @@ export default function PacientesPage() {
                       </div>
 
                       {/* Botões de Ação */}
-                      <div className="flex items-center justify-end gap-2 pt-3 border-t border-gray-200 dark:border-slate-700 mt-2">
+                      <div className="flex items-center justify-end gap-2 pt-3 border-t border-zinc-100 dark:border-zinc-800 mt-2">
                         <button
                           onClick={() => handleOpenEditModal(p)}
                           title="Editar Paciente"
-                          className="px-3.5 py-1.5 text-xs font-bold rounded-xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white transition-all shadow-sm flex items-center gap-1.5 cursor-pointer"
+                          className="px-3 py-1.5 text-xs font-medium rounded-lg bg-black hover:bg-zinc-800 active:bg-zinc-900 text-white dark:bg-white dark:text-black dark:hover:bg-zinc-200 transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
                         >
-                          <Pencil size={13} />
+                          <Pencil size={12} />
                           <span>Editar</span>
                         </button>
                         <button
                           onClick={() => handleDeletePaciente(p.id)}
                           title="Excluir Paciente"
-                          className="px-3.5 py-1.5 text-xs font-bold rounded-xl bg-red-600 hover:bg-red-700 active:bg-red-800 text-white transition-all shadow-sm flex items-center gap-1.5 cursor-pointer"
+                          className="px-3 py-1.5 text-xs font-medium rounded-lg border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors flex items-center gap-1.5 cursor-pointer"
                         >
-                          <Trash2 size={13} />
+                          <Trash2 size={12} />
                           <span>Excluir</span>
                         </button>
                       </div>
@@ -476,28 +448,24 @@ export default function PacientesPage() {
 
       {/* Modal de Cadastro / Edição de Paciente */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
-          <div
-            className={`w-full max-w-[480px] rounded-2xl p-6 shadow-2xl relative ${
-              isDark ? "bg-slate-900 text-white" : "bg-white text-gray-900"
-            }`}
-          >
-            <div className="flex items-center justify-between mb-4 pb-2 border-b border-gray-200 dark:border-slate-800">
-              <h3 className="text-lg font-bold flex items-center gap-2">
-                <UserPlus size={20} className="text-blue-500" />
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+          <div className="w-full max-w-[480px] rounded-2xl p-6 shadow-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-950 dark:text-zinc-50 relative">
+            <div className="flex items-center justify-between mb-4 pb-3 border-b border-zinc-100 dark:border-zinc-800">
+              <h3 className="text-base sm:text-lg font-semibold tracking-tight flex items-center gap-2">
+                <UserPlus size={18} className="text-zinc-950 dark:text-zinc-100" />
                 {editingPaciente ? "Editar Paciente" : "Novo Cadastro de Paciente"}
               </h3>
               <button
                 onClick={() => setShowModal(false)}
-                className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 cursor-pointer"
+                className="p-1 rounded-lg text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
               >
-                <X size={20} />
+                <X size={18} />
               </button>
             </div>
 
             {formError && (
-              <div className="mb-4 p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-semibold flex items-center gap-2">
-                <AlertCircle size={16} />
+              <div className="mb-4 p-3 rounded-lg bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 text-xs font-medium flex items-center gap-2">
+                <AlertCircle size={15} className="shrink-0 text-zinc-950 dark:text-zinc-100" />
                 <span>{formError}</span>
               </div>
             )}
@@ -505,7 +473,7 @@ export default function PacientesPage() {
             <form onSubmit={handleSavePaciente} className="space-y-3.5">
               {/* Nome Completo */}
               <div>
-                <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">
+                <label className="block text-xs font-medium text-zinc-600 dark:text-zinc-400 mb-1">
                   Nome Completo *
                 </label>
                 <input
@@ -514,18 +482,14 @@ export default function PacientesPage() {
                   value={nomeCompleto}
                   onChange={(e) => setNomeCompleto(e.target.value)}
                   placeholder="Ex: Maria das Dores Silva"
-                  className={`w-full rounded-xl p-3 text-sm border outline-none transition-all ${
-                    isDark
-                      ? "bg-slate-800 border-slate-700 text-white focus:border-blue-500"
-                      : "bg-gray-50 border-gray-300 text-gray-900 focus:border-blue-500"
-                  }`}
+                  className="w-full rounded-lg px-3 py-2 text-xs sm:text-sm border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 outline-none focus:ring-1 focus:ring-zinc-950 dark:focus:ring-zinc-300 transition-colors placeholder:text-zinc-400"
                 />
               </div>
 
               {/* Telefone & CPF */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1 flex items-center gap-1">
+                  <label className="block text-xs font-medium text-zinc-600 dark:text-zinc-400 mb-1 flex items-center gap-1">
                     <Phone size={12} />
                     <span>Telefone *</span>
                   </label>
@@ -536,16 +500,12 @@ export default function PacientesPage() {
                     value={telefone}
                     onChange={(e) => setTelefone(formatTelefone(e.target.value))}
                     placeholder="(11) 98765-4321"
-                    className={`w-full rounded-xl p-3 text-sm border outline-none transition-all ${
-                      isDark
-                        ? "bg-slate-800 border-slate-700 text-white focus:border-blue-500"
-                        : "bg-gray-50 border-gray-300 text-gray-900 focus:border-blue-500"
-                    }`}
+                    className="w-full rounded-lg px-3 py-2 text-xs sm:text-sm border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 outline-none focus:ring-1 focus:ring-zinc-950 dark:focus:ring-zinc-300 transition-colors placeholder:text-zinc-400"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">
+                  <label className="block text-xs font-medium text-zinc-600 dark:text-zinc-400 mb-1">
                     CPF *
                   </label>
                   <input
@@ -555,18 +515,14 @@ export default function PacientesPage() {
                     value={cpf}
                     onChange={(e) => setCpf(formatCPF(e.target.value))}
                     placeholder="000.000.000-00"
-                    className={`w-full rounded-xl p-3 text-sm border outline-none transition-all ${
-                      isDark
-                        ? "bg-slate-800 border-slate-700 text-white focus:border-blue-500"
-                        : "bg-gray-50 border-gray-300 text-gray-900 focus:border-blue-500"
-                    }`}
+                    className="w-full rounded-lg px-3 py-2 text-xs sm:text-sm border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 outline-none focus:ring-1 focus:ring-zinc-950 dark:focus:ring-zinc-300 transition-colors placeholder:text-zinc-400"
                   />
                 </div>
               </div>
 
               {/* Data de Nascimento */}
               <div>
-                <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">
+                <label className="block text-xs font-medium text-zinc-600 dark:text-zinc-400 mb-1">
                   Data de Nascimento *
                 </label>
                 <input
@@ -574,17 +530,13 @@ export default function PacientesPage() {
                   required
                   value={dataNascimento}
                   onChange={(e) => setDataNascimento(e.target.value)}
-                  className={`w-full rounded-xl p-3 text-sm border outline-none transition-all ${
-                    isDark
-                      ? "bg-slate-800 border-slate-700 text-white focus:border-blue-500"
-                      : "bg-gray-50 border-gray-300 text-gray-900 focus:border-blue-500"
-                  }`}
+                  className="w-full rounded-lg px-3 py-2 text-xs sm:text-sm border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 outline-none focus:ring-1 focus:ring-zinc-950 dark:focus:ring-zinc-300 transition-colors"
                 />
               </div>
 
               {/* Observações */}
               <div>
-                <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">
+                <label className="block text-xs font-medium text-zinc-600 dark:text-zinc-400 mb-1">
                   Observações Clínicas
                 </label>
                 <textarea
@@ -592,26 +544,22 @@ export default function PacientesPage() {
                   value={observacoes}
                   onChange={(e) => setObservacoes(e.target.value)}
                   placeholder="Anotações sobre históricos, preferências ou encaminhamentos..."
-                  className={`w-full rounded-xl p-3 text-sm border outline-none transition-all ${
-                    isDark
-                      ? "bg-slate-800 border-slate-700 text-white focus:border-blue-500"
-                      : "bg-gray-50 border-gray-300 text-gray-900 focus:border-blue-500"
-                  }`}
+                  className="w-full rounded-lg px-3 py-2 text-xs sm:text-sm border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 outline-none focus:ring-1 focus:ring-zinc-950 dark:focus:ring-zinc-300 transition-colors placeholder:text-zinc-400 resize-none"
                 />
               </div>
 
               {/* Botões do Modal */}
-              <div className="flex justify-end gap-2 pt-3 border-t border-gray-200 dark:border-slate-800">
+              <div className="flex justify-end gap-2 pt-3 border-t border-zinc-100 dark:border-zinc-800 mt-2">
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2.5 text-xs font-bold rounded-xl bg-gray-400 hover:bg-gray-500 text-white transition-colors cursor-pointer"
+                  className="px-3.5 py-2 text-xs font-medium rounded-lg border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 text-xs font-bold rounded-xl bg-blue-600 hover:bg-blue-700 text-white transition-all shadow-md cursor-pointer"
+                  className="px-4 py-2 text-xs font-medium rounded-lg bg-black hover:bg-zinc-800 active:bg-zinc-900 text-white dark:bg-white dark:text-black dark:hover:bg-zinc-200 transition-colors shadow-xs cursor-pointer"
                 >
                   {editingPaciente ? "Salvar Alterações" : "Cadastrar Paciente"}
                 </button>

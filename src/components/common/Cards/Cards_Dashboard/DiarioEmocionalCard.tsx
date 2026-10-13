@@ -37,8 +37,6 @@ export default function DiarioEmocionalCard() {
   const { theme } = useTheme();
   const router = useRouter();
   const isDark = theme === "dark";
-  const textColor = isDark ? "text-white" : "text-slate-800";
-  const secondaryText = isDark ? "text-slate-300" : "text-slate-600";
 
   const [loading, setLoading] = useState(true);
   const [consultasHoje, setConsultasHoje] = useState<Consulta[]>([]);
@@ -94,63 +92,79 @@ export default function DiarioEmocionalCard() {
   });
 
   return (
-    <BaseCard className="lg:h-full lg:min-h-0 w-full flex flex-col justify-between p-4 sm:p-5">
+    <BaseCard className="lg:h-full lg:min-h-0 w-full flex flex-col justify-between">
       <div className="flex flex-col h-full justify-between">
         <div>
-          <div className="border-b border-gray-200 dark:border-slate-700 pb-3 mb-3">
-            <h2 className={`text-[19px] font-bold ${textColor}`}>
-              Relatórios não escritos no dia
+          <div className="pb-3 border-b border-zinc-100 dark:border-zinc-800">
+            <h2 className="text-base font-semibold tracking-tight text-zinc-950 dark:text-zinc-50">
+              Relatórios Pendentes
             </h2>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+              {relatoriosPendentesHoje.length > 0
+                ? `${relatoriosPendentesHoje.length} consulta(s) de hoje aguardando relatório.`
+                : "Todos os relatórios de hoje estão em dia."}
+            </p>
           </div>
 
           {/* Conteúdo principal */}
           {loading ? (
-            <div className="py-6 text-center text-sm opacity-60">
+            <div className="py-8 text-center text-xs text-zinc-400">
               Carregando relatórios pendentes...
             </div>
           ) : relatoriosPendentesHoje.length > 0 ? (
-            <div className="space-y-2 max-h-[160px] overflow-y-auto pr-1 scrollbar-hide">
-              <p className={`text-xs font-medium mb-2 ${secondaryText}`}>
-                Consultas de hoje aguardando elaboração de relatório:
-              </p>
-              {relatoriosPendentesHoje.map((c) => (
-                <div
-                  key={c.id}
-                  className={`p-2.5 rounded-xl border flex items-center justify-between text-xs font-medium ${
-                    isDark
-                      ? "bg-slate-700/50 border-slate-600/50 text-white"
-                      : "bg-slate-100 border-slate-200 text-slate-800"
-                  }`}
-                >
-                  <span className="font-bold">{c.paciente}</span>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-blue-500/10 text-blue-500 font-semibold">
-                    {c.horario}
-                  </span>
-                </div>
-              ))}
+            <div className="divide-y divide-zinc-100 dark:divide-zinc-800 max-h-[220px] overflow-y-auto pr-1 scrollbar-hide my-2">
+              {relatoriosPendentesHoje.map((c) => {
+                const initials = c.paciente
+                  .split(" ")
+                  .map((n) => n[0])
+                  .slice(0, 2)
+                  .join("")
+                  .toUpperCase();
+
+                return (
+                  <div key={c.id} className="flex items-center justify-between py-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-xs font-semibold text-zinc-900 dark:text-zinc-100 shrink-0">
+                        {initials}
+                      </div>
+                      <div className="space-y-0.5">
+                        <p className="text-sm font-medium text-zinc-950 dark:text-zinc-50 leading-none">
+                          {c.paciente}
+                        </p>
+                        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                          {c.observacao || "Consulta clínica"}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-xs font-medium text-zinc-900 dark:text-zinc-100 px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 border border-zinc-200/60 dark:border-zinc-700/60">
+                      {c.horario}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           ) : (
-            <div className="py-6 flex flex-col items-center justify-center text-center">
-              <p className={`text-sm font-semibold ${textColor}`}>
-                Todos os relatórios de hoje estão em dia!
+            <div className="py-8 flex flex-col items-center justify-center text-center">
+              <p className="text-sm font-medium text-zinc-950 dark:text-zinc-50">
+                Tudo em dia!
               </p>
-              <p className={`text-xs mt-1 ${secondaryText}`}>
+              <p className="text-xs mt-1 text-zinc-500 dark:text-zinc-400">
                 {consultasHoje.length === 0
                   ? "Nenhuma consulta agendada para hoje."
-                  : "Todas as consultas de hoje já possuem relatórios salvos."}
+                  : "Todas as consultas de hoje já possuem relatórios concluídos."}
               </p>
             </div>
           )}
         </div>
 
         {/* Botão de Redirecionamento para Relatórios */}
-        <div className="mt-4 pt-2">
+        <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800">
           <button
             onClick={() => router.push("/relatorios")}
-            className="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-xs sm:text-sm font-bold rounded-xl shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full py-2.5 px-4 bg-black hover:bg-zinc-800 active:bg-zinc-900 text-white dark:bg-white dark:text-black dark:hover:bg-zinc-200 text-xs font-medium rounded-lg transition-colors flex items-center justify-center gap-2 shadow-sm cursor-pointer"
           >
             <span>Ir para Relatórios</span>
-            <ArrowRight size={16} />
+            <ArrowRight size={14} />
           </button>
         </div>
       </div>

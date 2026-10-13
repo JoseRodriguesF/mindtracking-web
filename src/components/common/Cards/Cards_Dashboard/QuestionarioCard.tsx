@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useTheme } from "@/contexts/ThemeContext";
 import BaseCard from "./BaseCard";
+import { Calendar } from "lucide-react";
 
 interface Consulta {
   id: string;
@@ -22,11 +22,6 @@ const getTodayString = () => {
 };
 
 export default function QuestionarioCard() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const textColor = isDark ? "text-white" : "text-slate-800";
-  const labelColor = isDark ? "text-slate-300" : "text-slate-600";
-
   const [concluidas, setConcluidas] = useState(0);
   const [naoConcluidas, setNaoConcluidas] = useState(0);
 
@@ -59,38 +54,22 @@ export default function QuestionarioCard() {
   }, []);
 
   return (
-    <BaseCard className="w-full flex flex-col justify-between p-4">
-      <div className="mb-2">
-        <h1 className={`text-[19px] font-bold ${textColor}`}>
+    <BaseCard className="w-full flex flex-col justify-between">
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
           Status de Consultas
-        </h1>
+        </span>
+        <Calendar className="h-4 w-4 text-zinc-500 dark:text-zinc-400" />
       </div>
 
-      <div className="grid grid-cols-2 gap-4 my-2">
-        {/* Concluídas */}
-        <div className="flex flex-col">
-          <span className={`text-sm font-semibold mb-1 ${labelColor}`}>
-            Concluídas
-          </span>
-          <span className={`text-3xl font-bold ${textColor}`}>
-            {concluidas}
-          </span>
+      <div className="mt-3">
+        <div className="text-2xl font-bold tracking-tight text-zinc-950 dark:text-zinc-50">
+          +{naoConcluidas}
         </div>
-
-        {/* Pendentes */}
-        <div className="flex flex-col">
-          <span className={`text-sm font-semibold mb-1 ${labelColor}`}>
-            Pendentes
-          </span>
-          <span className={`text-3xl font-bold ${textColor}`}>
-            {naoConcluidas}
-          </span>
-        </div>
+        <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 font-normal">
+          {concluidas} concluída(s) · {naoConcluidas} pendente(s) no total
+        </p>
       </div>
-
-      <p className="text-[11px] text-gray-400 dark:text-gray-400 mt-2 font-medium">
-        Total de {concluidas + naoConcluidas} consulta(s) no histórico.
-      </p>
     </BaseCard>
   );
 }

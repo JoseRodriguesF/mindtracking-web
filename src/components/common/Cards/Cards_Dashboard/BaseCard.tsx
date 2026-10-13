@@ -14,16 +14,15 @@ export default function BaseCard({ children, className }: BaseCardProps) {
   return (
     <div
       className={`
-        rounded-[8px]
-
-        pl-[20px] pr-[20px] pt-[20px]
-
+        rounded-2xl
+        p-6
         w-full flex flex-col
         transition-colors
+        border
         ${
           isDark
-            ? "bg-slate-800"
-            : "bg-slate-50 shadow-[0_8px_15px_0_rgba(0,0,0,0.20)]"
+            ? "bg-zinc-900 border-zinc-800 text-zinc-50 shadow-sm"
+            : "bg-white border-zinc-200/80 text-zinc-950 shadow-sm"
         }
         ${className ?? ""}
       `}

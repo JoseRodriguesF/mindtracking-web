@@ -2,15 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useTheme } from "@/contexts/ThemeContext";
 import BaseCard from "./BaseCard";
+import { Sparkles } from "lucide-react";
 
 export default function RecomendacoesCard() {
-  const { theme } = useTheme();
   const router = useRouter();
-  const isDark = theme === "dark";
-  const textColor = isDark ? "text-white" : "text-slate-800";
-
   const [prompt, setPrompt] = useState("");
 
   const handleAskHelp = (e?: React.FormEvent) => {
@@ -24,36 +20,35 @@ export default function RecomendacoesCard() {
   };
 
   return (
-    <BaseCard className="w-full flex flex-col justify-between p-4">
-      <div className="mb-2">
-        <h1 className={`text-[19px] font-bold ${textColor}`}>
+    <BaseCard className="w-full flex flex-col justify-between">
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
           Assistente IA Athena
-        </h1>
+        </span>
+        <Sparkles className="h-4 w-4 text-zinc-500 dark:text-zinc-400" />
       </div>
 
-      <p className="text-xs text-gray-400 dark:text-gray-300 font-medium mb-3">
-        Precisa de auxílio clínico, sugestão de conduta ou suporte emocional? Peça ajuda à Athena.
-      </p>
+      <div className="mt-3">
+        <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-2.5 font-normal">
+          Suporte clínico e orientações terapêuticas em tempo real.
+        </p>
 
-      <form onSubmit={handleAskHelp} className="flex gap-2 items-center">
-        <input
-          type="text"
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          placeholder="Como posso te ajudar hoje?..."
-          className={`flex-1 rounded-xl px-3 py-2.5 text-xs border outline-none transition-all ${
-            isDark
-              ? "bg-slate-700/50 border-slate-600/50 text-white focus:border-blue-500"
-              : "bg-slate-100 border-slate-200 text-slate-900 focus:border-blue-500"
-          }`}
-        />
-        <button
-          type="submit"
-          className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white rounded-xl text-xs font-bold transition-all shadow-sm cursor-pointer shrink-0"
-        >
-          Ajuda
-        </button>
-      </form>
+        <form onSubmit={handleAskHelp} className="flex gap-2 items-center">
+          <input
+            type="text"
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+            placeholder="Como a Athena pode ajudar?..."
+            className="flex-1 rounded-lg px-3 py-1.5 text-xs border border-zinc-200 dark:border-zinc-800 bg-transparent text-zinc-950 dark:text-zinc-100 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-zinc-950 dark:focus:ring-zinc-200 transition-colors"
+          />
+          <button
+            type="submit"
+            className="px-3 py-1.5 bg-black hover:bg-zinc-800 active:bg-zinc-900 text-white dark:bg-white dark:text-black dark:hover:bg-zinc-200 rounded-lg text-xs font-medium transition-colors cursor-pointer shrink-0 shadow-sm"
+          >
+            Ajuda
+          </button>
+        </form>
+      </div>
     </BaseCard>
   );
 }

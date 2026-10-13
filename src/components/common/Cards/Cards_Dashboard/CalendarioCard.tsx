@@ -345,52 +345,48 @@ export default function CalendarioCard() {
   });
 
   return (
-    <BaseCard className="min-h-[420px] lg:h-full lg:min-h-0 w-full flex flex-col justify-between p-4 sm:p-6 overflow-hidden">
+    <BaseCard className="min-h-[420px] lg:h-full lg:min-h-0 w-full flex flex-col justify-between overflow-hidden">
       {/* Header do Card */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-gray-200 dark:border-slate-700">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-zinc-100 dark:border-zinc-800">
         <div className="flex items-center gap-2.5">
           <div>
-            <h2
-              className={`text-lg sm:text-xl font-bold ${
-                isDark ? "text-white" : "text-slate-800"
-              }`}
-            >
+            <h2 className="text-base sm:text-lg font-semibold tracking-tight text-zinc-950 dark:text-zinc-50">
               Calendário de Consultas
             </h2>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 font-normal">
               Gerencie os agendamentos dos pacientes cadastrados
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
-          <div className="flex bg-gray-100 dark:bg-slate-800 p-1 rounded-xl text-xs font-semibold">
+          <div className="inline-flex items-center bg-zinc-100 dark:bg-zinc-800 p-1 rounded-lg text-xs font-medium">
             <button
               onClick={() => setViewMode("dia")}
-              className={`px-3 py-1 rounded-lg transition-colors cursor-pointer ${
+              className={`px-3 py-1 rounded-md transition-colors cursor-pointer ${
                 viewMode === "dia"
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-600 dark:text-gray-300 hover:text-blue-500"
+                  ? "bg-white dark:bg-zinc-950 text-zinc-950 dark:text-zinc-50 shadow-sm"
+                  : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-50"
               }`}
             >
               Dia
             </button>
             <button
               onClick={() => setViewMode("semana")}
-              className={`px-3 py-1 rounded-lg transition-colors cursor-pointer ${
+              className={`px-3 py-1 rounded-md transition-colors cursor-pointer ${
                 viewMode === "semana"
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-600 dark:text-gray-300 hover:text-blue-500"
+                  ? "bg-white dark:bg-zinc-950 text-zinc-950 dark:text-zinc-50 shadow-sm"
+                  : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-50"
               }`}
             >
               Semana
             </button>
             <button
               onClick={() => setViewMode("mes")}
-              className={`px-3 py-1 rounded-lg transition-colors cursor-pointer ${
+              className={`px-3 py-1 rounded-md transition-colors cursor-pointer ${
                 viewMode === "mes"
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-600 dark:text-gray-300 hover:text-blue-500"
+                  ? "bg-white dark:bg-zinc-950 text-zinc-950 dark:text-zinc-50 shadow-sm"
+                  : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-50"
               }`}
             >
               Mês
@@ -399,9 +395,9 @@ export default function CalendarioCard() {
 
           <button
             onClick={() => openNewModal(selectedDate)}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-xs font-semibold rounded-xl transition-all shadow-sm cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 bg-black hover:bg-zinc-800 active:bg-zinc-900 text-white dark:bg-white dark:text-black dark:hover:bg-zinc-200 rounded-lg text-xs font-medium transition-colors shadow-sm cursor-pointer"
           >
-            <Plus size={16} />
+            <Plus size={15} />
             <span>Agendar</span>
           </button>
         </div>
@@ -416,20 +412,18 @@ export default function CalendarioCard() {
               <button
                 key={day.iso}
                 onClick={() => setSelectedDate(day.iso)}
-                className={`flex flex-col items-center justify-center p-2 rounded-xl min-w-[44px] sm:min-w-[54px] transition-all cursor-pointer ${
+                className={`flex flex-col items-center justify-center p-2 rounded-lg min-w-[44px] sm:min-w-[52px] transition-colors cursor-pointer ${
                   isSelected
-                    ? "bg-blue-600 text-white shadow-md scale-105"
+                    ? "bg-black text-white dark:bg-white dark:text-black shadow-sm font-semibold"
                     : day.isToday
-                    ? "border border-blue-500 text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-slate-800"
-                    : isDark
-                    ? "bg-slate-800/60 text-gray-300 hover:bg-slate-800"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    ? "border border-zinc-900/60 dark:border-zinc-100/60 text-zinc-900 dark:text-zinc-100 bg-zinc-50 dark:bg-zinc-800/80"
+                    : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-transparent"
                 }`}
               >
                 <span className="text-[10px] font-medium uppercase">
                   {day.dayName}
                 </span>
-                <span className="text-sm font-bold mt-0.5">{day.dayNum}</span>
+                <span className="text-sm font-semibold mt-0.5">{day.dayNum}</span>
               </button>
             );
           })}
@@ -458,34 +452,30 @@ export default function CalendarioCard() {
             consultasDoDia.map((c) => (
               <div
                 key={c.id}
-                className={`p-3 rounded-xl border transition-all flex items-center justify-between ${
+                className={`p-3 rounded-lg border transition-colors flex items-center justify-between ${
                   c.status === "cancelada"
-                    ? isDark
-                      ? "bg-slate-800/40 border-slate-700 opacity-60"
-                      : "bg-gray-100 border-gray-200 opacity-60"
-                    : isDark
-                    ? "bg-slate-800/80 border-slate-700 text-white"
-                    : "bg-slate-50 border-gray-200 text-gray-800"
+                    ? "bg-zinc-50/50 dark:bg-zinc-900/20 border-zinc-200/50 dark:border-zinc-800/50 opacity-60"
+                    : "bg-white dark:bg-zinc-900/40 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50/60 dark:hover:bg-zinc-800/40"
                 }`}
               >
                 <div className="flex items-center gap-3">
                   <div
-                    className={`px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 ${
+                    className={`px-2.5 py-1 rounded-md text-xs font-medium flex items-center gap-1.5 ${
                       c.status === "cancelada"
-                        ? "bg-red-500/10 text-red-500"
-                        : "bg-blue-600/10 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400"
+                        ? "bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400"
+                        : "bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 border border-zinc-200/60 dark:border-zinc-700/60"
                     }`}
                   >
-                    <Clock size={12} />
+                    <Clock size={13} />
                     {c.horario}
                   </div>
                   <div>
-                    <h4 className={`text-sm font-bold flex items-center gap-1.5 ${c.status === "cancelada" ? "line-through" : ""}`}>
-                      <User size={14} className="text-gray-400" />
+                    <h4 className={`text-sm font-medium flex items-center gap-1.5 ${c.status === "cancelada" ? "line-through text-zinc-400" : "text-zinc-950 dark:text-zinc-50"}`}>
+                      <User size={14} className="text-zinc-400" />
                       {c.paciente}
                     </h4>
                     {c.observacao && (
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                      <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
                         {c.observacao}
                       </p>
                     )}
@@ -497,7 +487,7 @@ export default function CalendarioCard() {
                     <button
                       onClick={() => handleStartSession(c)}
                       title="Iniciar Consulta e Enviar Convite"
-                      className="px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white transition-all cursor-pointer shadow-sm shrink-0"
+                      className="px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 bg-black hover:bg-zinc-800 active:bg-zinc-900 text-white dark:bg-white dark:text-black dark:hover:bg-zinc-200 transition-colors cursor-pointer shadow-sm shrink-0"
                     >
                       <Video size={13} />
                       <span className="hidden sm:inline">Iniciar Consulta</span>
@@ -507,27 +497,23 @@ export default function CalendarioCard() {
                   <button
                     onClick={() => openEditModal(c)}
                     title="Editar Horário/Consulta"
-                    className="p-1.5 rounded-lg text-gray-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-slate-700 transition-colors cursor-pointer"
+                    className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
                   >
-                    <Pencil size={15} />
+                    <Pencil size={14} />
                   </button>
 
                   <button
                     onClick={() => handleToggleCancel(c.id)}
                     title={c.status === "cancelada" ? "Reativar Consulta" : "Desmarcar Consulta"}
-                    className={`px-2.5 py-1 rounded-lg text-xs font-semibold flex items-center gap-1 cursor-pointer transition-colors ${
-                      c.status === "cancelada"
-                        ? "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-slate-700 dark:text-gray-200"
-                        : "bg-red-500/10 text-red-600 hover:bg-red-500/20 dark:text-red-400"
-                    }`}
+                    className="px-2.5 py-1.5 rounded-lg text-xs font-medium border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
                   >
                     {c.status === "cancelada" ? (
                       <>
-                        <CheckCircle2 size={13} /> Reativar
+                        <CheckCircle2 size={13} className="inline mr-1" /> Reativar
                       </>
                     ) : (
                       <>
-                        <XCircle size={13} /> Desmarcar
+                        <XCircle size={13} className="inline mr-1" /> Desmarcar
                       </>
                     )}
                   </button>
@@ -539,9 +525,9 @@ export default function CalendarioCard() {
 
         {viewMode === "semana" && (
           consultasDaSemana.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full text-center py-6 text-gray-400">
-              <CalendarIcon size={32} className="mb-2 opacity-50" />
-              <p className="text-sm font-medium">
+            <div className="flex flex-col items-center justify-center h-full text-center py-6 text-zinc-400">
+              <CalendarIcon size={32} className="mb-2 opacity-40" />
+              <p className="text-sm font-normal">
                 Nenhuma consulta agendada para esta semana.
               </p>
             </div>
@@ -549,24 +535,22 @@ export default function CalendarioCard() {
             consultasDaSemana.map((c) => (
               <div
                 key={c.id}
-                className={`p-3 rounded-xl border transition-all flex items-center justify-between ${
+                className={`p-3 rounded-lg border transition-colors flex items-center justify-between ${
                   c.status === "cancelada"
-                    ? isDark
-                      ? "bg-slate-800/40 border-slate-700 opacity-60"
-                      : "bg-gray-100 border-gray-200 opacity-60"
-                    : isDark
-                    ? "bg-slate-800/80 border-slate-700 text-white"
-                    : "bg-slate-50 border-gray-200 text-gray-800"
+                    ? "bg-zinc-50/50 dark:bg-zinc-900/20 border-zinc-200/50 dark:border-zinc-800/50 opacity-60"
+                    : "bg-white dark:bg-zinc-900/40 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50/60 dark:hover:bg-zinc-800/40"
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <div className="px-2 py-1 rounded-lg bg-purple-600/10 text-purple-600 dark:text-purple-400 text-xs font-bold">
+                  <div className="px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 border border-zinc-200/60 dark:border-zinc-700/60 text-xs font-medium">
                     {c.data.split("-").reverse().slice(0, 2).join("/")} às {c.horario}
                   </div>
                   <div>
-                    <h4 className={`text-sm font-bold ${c.status === "cancelada" ? "line-through" : ""}`}>{c.paciente}</h4>
+                    <h4 className={`text-sm font-medium ${c.status === "cancelada" ? "line-through text-zinc-400" : "text-zinc-950 dark:text-zinc-50"}`}>
+                      {c.paciente}
+                    </h4>
                     {c.observacao && (
-                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                      <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
                         {c.observacao}
                       </p>
                     )}
@@ -578,7 +562,7 @@ export default function CalendarioCard() {
                     <button
                       onClick={() => handleStartSession(c)}
                       title="Iniciar Consulta e Enviar Convite"
-                      className="px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white transition-all cursor-pointer shadow-sm shrink-0"
+                      className="px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 bg-black hover:bg-zinc-800 active:bg-zinc-900 text-white dark:bg-white dark:text-black dark:hover:bg-zinc-200 transition-colors cursor-pointer shadow-sm shrink-0"
                     >
                       <Video size={13} />
                       <span className="hidden sm:inline">Iniciar Consulta</span>
@@ -587,18 +571,14 @@ export default function CalendarioCard() {
                   <button
                     onClick={() => openEditModal(c)}
                     title="Editar Horário/Consulta"
-                    className="p-1.5 rounded-lg text-gray-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-slate-700 transition-colors cursor-pointer"
+                    className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
                   >
-                    <Pencil size={15} />
+                    <Pencil size={14} />
                   </button>
                   <button
                     onClick={() => handleToggleCancel(c.id)}
                     title={c.status === "cancelada" ? "Reativar Consulta" : "Desmarcar Consulta"}
-                    className={`px-2 py-1 rounded-lg text-xs font-semibold transition-colors cursor-pointer ${
-                      c.status === "cancelada"
-                        ? "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-slate-700 dark:text-gray-200"
-                        : "bg-red-500/10 text-red-600 hover:bg-red-500/20 dark:text-red-400"
-                    }`}
+                    className="px-2.5 py-1.5 rounded-lg text-xs font-medium border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
                   >
                     {c.status === "cancelada" ? "Reativar" : "Desmarcar"}
                   </button>
@@ -644,7 +624,7 @@ export default function CalendarioCard() {
             <div className="grid grid-cols-7 gap-1 text-center">
               {getMonthGrid().map((cell, idx) => {
                 if (!cell) {
-                  return <div key={idx} className="h-10" />;
+                  return <div key={idx} className="h-9" />;
                 }
                 const isSelected = cell.iso === selectedDate;
                 return (
@@ -658,21 +638,19 @@ export default function CalendarioCard() {
                         setViewMode("dia");
                       }
                     }}
-                    className={`h-10 rounded-xl relative flex flex-col items-center justify-center transition-all cursor-pointer text-xs font-semibold ${
+                    className={`h-9 rounded-lg relative flex flex-col items-center justify-center transition-colors cursor-pointer text-xs font-medium ${
                       isSelected
-                        ? "bg-blue-600 text-white shadow-md font-bold"
+                        ? "bg-black text-white dark:bg-white dark:text-black shadow-sm font-semibold"
                         : cell.isToday
-                        ? "border-2 border-blue-500 text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-slate-800"
+                        ? "border border-zinc-900 dark:border-zinc-100 text-zinc-950 dark:text-zinc-50"
                         : cell.isPast
-                        ? "text-gray-400 dark:text-gray-600 bg-gray-100/50 dark:bg-slate-800/30 cursor-not-allowed"
-                        : isDark
-                        ? "bg-slate-800/70 text-gray-200 hover:bg-slate-700"
-                        : "bg-slate-100 text-gray-800 hover:bg-gray-200"
+                        ? "text-zinc-300 dark:text-zinc-700 cursor-not-allowed"
+                        : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800"
                     }`}
                   >
                     <span>{cell.dayNum}</span>
                     {cell.consultasCount > 0 && (
-                      <span className="absolute bottom-1 w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                      <span className="absolute bottom-1 w-1 h-1 rounded-full bg-zinc-900 dark:bg-zinc-100" />
                     )}
                   </button>
                 );
@@ -684,35 +662,35 @@ export default function CalendarioCard() {
 
       {/* Modal de Agendamento e Edição */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center p-4">
           <div
-            className={`w-full max-w-[440px] rounded-2xl p-5 shadow-2xl relative ${
-              isDark ? "bg-slate-900 text-white" : "bg-white text-gray-900"
+            className={`w-full max-w-[440px] rounded-xl p-6 shadow-xl border relative ${
+              isDark ? "bg-zinc-900 border-zinc-800 text-zinc-50" : "bg-white border-zinc-200 text-zinc-950"
             }`}
           >
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold flex items-center gap-2">
-                <CalendarIcon size={18} className="text-blue-500" />
+              <h3 className="text-base font-semibold flex items-center gap-2">
+                <CalendarIcon size={16} className="text-zinc-950 dark:text-zinc-50" />
                 {editingConsulta ? "Editar Consulta" : "Agendar Consulta"}
               </h3>
               <button
                 onClick={() => setShowModal(false)}
-                className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 cursor-pointer"
+                className="p-1 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 cursor-pointer"
               >
-                <X size={20} />
+                <X size={18} />
               </button>
             </div>
 
             {formError && (
-              <div className="mb-3 p-2.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-semibold flex items-center gap-2">
-                <AlertCircle size={16} />
+              <div className="mb-3 p-2.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 text-xs font-medium flex items-center gap-2">
+                <AlertCircle size={15} />
                 <span>{formError}</span>
               </div>
             )}
 
             {pacientesCadastrados.length === 0 && !editingConsulta ? (
               <div className="py-4 text-center space-y-3">
-                <p className="text-xs text-amber-500 font-semibold bg-amber-500/10 p-3 rounded-xl border border-amber-500/20">
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 p-3 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50">
                   Nenhum paciente cadastrado. Só é possível agendar consultas com pacientes registrados na plataforma.
                 </p>
                 <button
@@ -720,7 +698,7 @@ export default function CalendarioCard() {
                     setShowModal(false);
                     router.push("/pacientes");
                   }}
-                  className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition-all shadow-md cursor-pointer"
+                  className="px-4 py-2 bg-black hover:bg-zinc-800 text-white dark:bg-white dark:text-black dark:hover:bg-zinc-200 rounded-lg text-xs font-medium transition-colors cursor-pointer shadow-sm"
                 >
                   Ir para Registro de Pacientes
                 </button>
@@ -728,17 +706,17 @@ export default function CalendarioCard() {
             ) : (
               <form onSubmit={handleSaveConsulta} className="space-y-3">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-400 mb-1">
+                  <label className="block text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1">
                     Selecione o Paciente Cadastrado *
                   </label>
                   <select
                     required
                     value={novoPaciente}
                     onChange={(e) => setNovoPaciente(e.target.value)}
-                    className={`w-full rounded-lg p-2.5 text-sm border border-blue-500 outline-none ${
+                    className={`w-full rounded-lg p-2 text-xs border border-zinc-200 dark:border-zinc-700 outline-none focus:ring-1 focus:ring-zinc-950 ${
                       isDark
-                        ? "bg-slate-800 text-white"
-                        : "bg-gray-50 text-gray-900"
+                        ? "bg-zinc-800 text-zinc-100"
+                        : "bg-white text-zinc-900"
                     }`}
                   >
                     {pacientesCadastrados.length > 0 ? (
@@ -755,7 +733,7 @@ export default function CalendarioCard() {
 
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="block text-xs font-semibold text-gray-400 mb-1">
+                    <label className="block text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1">
                       Data *
                     </label>
                     <input
@@ -771,16 +749,16 @@ export default function CalendarioCard() {
                           setFormError(null);
                         }
                       }}
-                      className={`w-full rounded-lg p-2.5 text-sm border border-blue-500 outline-none ${
+                      className={`w-full rounded-lg p-2 text-xs border border-zinc-200 dark:border-zinc-700 outline-none focus:ring-1 focus:ring-zinc-950 ${
                         isDark
-                          ? "bg-slate-800 text-white"
-                          : "bg-gray-50 text-gray-900"
+                          ? "bg-zinc-800 text-zinc-100"
+                          : "bg-white text-zinc-900"
                       }`}
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-gray-400 mb-1">
+                    <label className="block text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1">
                       Horário *
                     </label>
                     <input
@@ -788,17 +766,17 @@ export default function CalendarioCard() {
                       required
                       value={novoHorario}
                       onChange={(e) => setNovoHorario(e.target.value)}
-                      className={`w-full rounded-lg p-2.5 text-sm border border-blue-500 outline-none ${
+                      className={`w-full rounded-lg p-2 text-xs border border-zinc-200 dark:border-zinc-700 outline-none focus:ring-1 focus:ring-zinc-950 ${
                         isDark
-                          ? "bg-slate-800 text-white"
-                          : "bg-gray-50 text-gray-900"
+                          ? "bg-zinc-800 text-zinc-100"
+                          : "bg-white text-zinc-900"
                       }`}
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-400 mb-1">
+                  <label className="block text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1">
                     Observações / Tipo de Consulta
                   </label>
                   <input
@@ -806,10 +784,10 @@ export default function CalendarioCard() {
                     value={novaObs}
                     onChange={(e) => setNovaObs(e.target.value)}
                     placeholder="Ex: Primeira consulta TCC"
-                    className={`w-full rounded-lg p-2.5 text-sm border border-blue-500 outline-none ${
+                    className={`w-full rounded-lg p-2 text-xs border border-zinc-200 dark:border-zinc-700 outline-none focus:ring-1 focus:ring-zinc-950 ${
                       isDark
-                        ? "bg-slate-800 text-white"
-                        : "bg-gray-50 text-gray-900"
+                        ? "bg-zinc-800 text-zinc-100"
+                        : "bg-white text-zinc-900"
                     }`}
                   />
                 </div>
@@ -818,13 +796,13 @@ export default function CalendarioCard() {
                   <button
                     type="button"
                     onClick={() => setShowModal(false)}
-                    className="px-4 py-2 text-xs font-semibold rounded-xl bg-gray-400 hover:bg-gray-500 text-white transition-colors cursor-pointer"
+                    className="px-3.5 py-1.5 text-xs font-medium rounded-lg border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
                   >
                     Cancelar
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 text-xs font-semibold rounded-xl bg-blue-600 hover:bg-blue-700 text-white transition-colors cursor-pointer"
+                    className="px-3.5 py-1.5 text-xs font-medium rounded-lg bg-black hover:bg-zinc-800 text-white dark:bg-white dark:text-black dark:hover:bg-zinc-200 transition-colors cursor-pointer shadow-sm"
                   >
                     {editingConsulta ? "Salvar Alterações" : "Confirmar Agendamento"}
                   </button>

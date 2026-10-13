@@ -53,7 +53,7 @@ export default function PrivateLayout({
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[#F8FAFC] dark:bg-gray-900">
       <Sidebar />
       <main className="min-h-screen h-full transition-all duration-300">
         {children}
